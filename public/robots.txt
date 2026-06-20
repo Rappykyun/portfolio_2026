@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://your-domain.com/sitemap.xml
+
+# Disallow certain paths if needed
+# Disallow: /private/
+# Disallow: /admin/
+
+# Allow Google and other search engines to index images
+User-agent: Googlebot
+Allow: /*.jpg$
+Allow: /*.png$
+Allow: /*.svg$
+Allow: /*.webp$
+
+# Crawl delay for other bots
+User-agent: *
+Crawl-delay: 1
