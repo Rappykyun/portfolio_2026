@@ -1,58 +1,76 @@
-import { UserCheck, GraduationCap } from "lucide-react";
+import { BookOpen, ExternalLink } from "lucide-react";
 import Link from "next/link";
 
+const sectionClass =
+  "rounded-2xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-7 dark:border-zinc-800/80 dark:bg-zinc-900/40";
+
+const projects = [
+  {
+    icon: BookOpen,
+    name: "CHED E-Library System",
+    description:
+      "Digital library platform for CHED Regional Office XII serving higher education institutions across SOCCSKSARGEN.",
+    slug: "ched-elibrary",
+    tags: ["Laravel", "React", "Inertia.js", "Tailwind CSS", "MySQL"],
+    live: "https://elibrary.ralphvincent.tech",
+  },
+];
+
 export default function Projects() {
-  const myProjects = [
-    {
-      icon: UserCheck,
-      name: "FaceTrack Pro",
-      description: "Smart attendance tracking powered by facial recognition",
-      slug: "facetrack-pro",
-    },
-    {
-      icon: GraduationCap,
-      name: "EduHub",
-      description:
-        "All-in-one platform for student resources and learning materials",
-      slug: "eduhub",
-    },
-  ];
   return (
-    <main className="max-w-7xl mx-auto md:px-16 px-6 lg:mt-32 mt-20 mb-20">
-      <section>
-        <h1 className="font-incognito text-6xl font-bold">Projects</h1>
-        <p className="text-lg w-3/4 sm:text-xl text-gray-600 dark:text-gray-400 mb-8 pt-5">
-          I&apos;m still a 3rd-year Computer Science student, so I only have a few
-          projects under my belt so far. However, these are the ones I&apos;m most
-          proud of! Some are open-source, so if one catches your eye, feel free
-          to check out the code and share your ideas for improvement. 🚀
-        </p>
-      </section>
-      <section>
-        <div className="grid grid-col-2 md:grid-cols-3 gap-6">
-          {myProjects.map((project) => (
-            <Link
-              key={project.slug}
-              href={`/projects/${project.slug}`}
-              className="flex flex-col p-4 border border-zinc-200 dark:border-zinc-800 rounded-lg hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors"
-            >
-              <div className="flex items-center gap-4">
-                <div className="bg-zinc-100 dark:bg-zinc-800 p-3 rounded-lg">
-                  <project.icon className="w-8 h-8 text-green-500" />
+    <main className="max-w-5xl mx-auto md:px-12 px-5 lg:mt-12 mt-8">
+      <div className="flex flex-col gap-5 sm:gap-6">
+        <section className={sectionClass}>
+          <h1 className="font-incognito text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
+            Projects
+          </h1>
+          <p className="mt-3 text-base text-zinc-600 dark:text-zinc-400 sm:text-lg">
+            Things I&apos;ve built as a graduating CS student and freelance developer.
+          </p>
+        </section>
+
+        <section className={sectionClass}>
+          <p className="text-xl sm:text-2xl font-bold pb-4 font-incognito">
+            All Projects
+          </p>
+          <div className="grid gap-4 sm:grid-cols-2">
+            {projects.map((project) => (
+              <Link
+                key={project.slug}
+                href={`/projects/${project.slug}`}
+                className="group flex flex-col gap-3 rounded-xl border border-zinc-200/70 bg-white/60 p-4 transition-all duration-200 hover:border-green-500/40 hover:shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900/30 dark:hover:border-green-500/30"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="rounded-lg border border-zinc-200/70 bg-zinc-100/80 p-2.5 dark:border-zinc-700/60 dark:bg-zinc-800/60">
+                    <project.icon className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h2 className="font-incognito text-base font-semibold text-zinc-900 dark:text-zinc-100">
+                        {project.name}
+                      </h2>
+                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100 dark:text-zinc-500" />
+                    </div>
+                    <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">
+                      {project.description}
+                    </p>
+                  </div>
                 </div>
-                <div className="w-full">
-                  <h2 className="font-incognito text-xl font-bold">
-                    {project.name}
-                  </h2>
-                  <p className="text-zinc-600 dark:text-zinc-400 text-sm">
-                    {project.description}
-                  </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full border border-zinc-200/70 bg-zinc-100/80 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:border-zinc-700/60 dark:bg-zinc-800/60 dark:text-zinc-400"
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
     </main>
   );
 }
