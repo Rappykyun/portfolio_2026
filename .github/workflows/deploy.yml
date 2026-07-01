@@ -76,8 +76,8 @@ jobs:
                 PORT="$APP_PORT" pm2 start npm --name portfolio_2026 -- start -- -H 127.0.0.1 -p "$APP_PORT"
               fi
               pm2 save
-              curl -fsSI --retry 5 --retry-delay 2 "http://127.0.0.1:$APP_PORT/" >/dev/null
+              curl -fsSI --retry 10 --retry-delay 2 --retry-connrefused "http://127.0.0.1:$APP_PORT/" >/dev/null
           REMOTE_SCRIPT
 
       - name: Verify public site
-        run: curl -fsSI --retry 5 --retry-delay 2 https://ralphvincent.tech/ >/dev/null
+        run: curl -fsSI --retry 10 --retry-delay 2 --retry-connrefused https://ralphvincent.tech/ >/dev/null
