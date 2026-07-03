@@ -1,4 +1,11 @@
-import { BookOpen, ExternalLink } from "lucide-react";
+import {
+  BookOpen,
+  BrainCircuit,
+  ExternalLink,
+  Navigation,
+  Shield,
+  Sprout,
+} from "lucide-react";
 import Link from "next/link";
 
 const sectionClass =
@@ -13,6 +20,42 @@ const projects = [
     slug: "ched-elibrary",
     tags: ["Laravel", "React", "Inertia.js", "Tailwind CSS", "MySQL"],
     live: "https://elibrary.ralphvincent.tech",
+  },
+  {
+    icon: BrainCircuit,
+    name: "Global Gradient Code — Food Price Forecasting",
+    description:
+      "XGBoost-based ML system predicting monthly food prices for 19 commodities in Sultan Kudarat using satellite climate data.",
+    slug: "global-gradient-code",
+    tags: ["Python", "XGBoost", "FastAPI", "React", "TypeScript", "Machine Learning"],
+    live: null,
+  },
+  {
+    icon: Sprout,
+    name: "Farmstock — Agricultural Inventory & Order System",
+    description:
+      "Fullstack inventory and order management platform for agricultural businesses with role-based access and PDF reporting.",
+    slug: "farmstock",
+    tags: ["Laravel", "React", "Inertia.js", "MySQL", "Tailwind CSS", "PHP"],
+    live: "https://farmstock.ralphvincent.tech",
+  },
+  {
+    icon: Navigation,
+    name: "TriTrack — Tricycle Booking & Dispatch Platform",
+    description:
+      "Real-time tricycle ride-hailing platform with driver and passenger mobile apps plus an admin web dashboard.",
+    slug: "tritrack",
+    tags: ["Next.js", "React Native", "Expo", "Supabase", "TypeScript", "Maps"],
+    live: "https://tritrack.ralphvincent.tech",
+  },
+  {
+    icon: Shield,
+    name: "Access Guard — IoT Access Control System",
+    description:
+      "ESP32-based smart lock with keypad, RFID, GSM SMS, and SD card user management for restricted-area access control.",
+    slug: "access-guard",
+    tags: ["ESP32", "C++", "PlatformIO", "IoT", "Embedded Systems", "GSM"],
+    live: null,
   },
 ];
 
