@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Github, Calendar, Users, Code, KeyRound } from "lucide-react";
+import { ArrowLeft, ExternalLink, Github, Calendar, Users, Code, KeyRound, Store } from "lucide-react";
 
 const sectionClass =
   "rounded-2xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-7 dark:border-zinc-800/80 dark:bg-zinc-900/40";
@@ -263,6 +263,57 @@ const projects = {
       { label: "Communication", value: "GSM A7670E (SMS)" },
       { label: "Peripherals", value: "LCD I2C, Keypad, RFID, Servo, SD, RTC" },
       { label: "Power", value: "5V DC + Backup Battery" },
+    ],
+  },
+  saripos: {
+    name: "SariPOS — Offline-First Sari-Sari Store POS",
+    tagline: "Lightweight POS for sari-sari stores with inventory, utang, and e-load tracking",
+    description:
+      "SariPOS is a lightweight, offline-first point-of-sale app for sari-sari stores and small retail shops. It helps store owners record sales, manage inventory, track utang (credit), record e-load sales, and review daily or range-based reports entirely in the browser using IndexedDB. Built with Next.js 16 and Dexie for local storage, it features PIN-protected access, pack-and-piece pricing, low-stock alerts, PWA support, and manual JSON backup/restore for data portability.",
+    tags: ["Next.js", "React", "TypeScript", "Dexie", "IndexedDB", "Tailwind CSS"],
+    timeline: "Jul 2026",
+    role: "Fullstack Developer",
+    status: "Deployed",
+    live: "https://saripos.sitebox.tech",
+    github: "https://github.com/Rappykyun/saripos",
+    demo: null,
+    features: [
+      {
+        title: "Sales & Checkout",
+        points: [
+          "Cash and utang checkout with product sales",
+          "E-load sales with mobile number, network, and reference tracking",
+          "Pack and piece pricing support",
+          "Sale history with search, date filters, pagination, and void/refund actions",
+        ],
+      },
+      {
+        title: "Inventory Management",
+        points: [
+          "Product catalog with categories, units, cost/sell pricing",
+          "Real-time stock deduction on sale",
+          "Low-stock level indicators and alerts",
+          "Stock movement tracking and product seeding",
+        ],
+      },
+      {
+        title: "Utang & Reports",
+        points: [
+          "Customer utang tracking with balances and payment history",
+          "Dashboard focused on today's store activity",
+          "Reports for today, yesterday, last 7 days, this month, and custom ranges",
+          "Manual JSON backup and restore for data portability",
+        ],
+      },
+    ],
+    tech: [
+      { label: "Framework", value: "Next.js 16" },
+      { label: "Language", value: "TypeScript" },
+      { label: "UI Library", value: "React 19 + Tailwind CSS v4" },
+      { label: "Storage", value: "Dexie (IndexedDB)" },
+      { label: "Charts", value: "Recharts" },
+      { label: "Testing", value: "Vitest + Playwright" },
+      { label: "Deployment", value: "VPS / Nginx / PM2" },
     ],
   },
 };

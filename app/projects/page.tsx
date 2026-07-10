@@ -5,6 +5,7 @@ import {
   Navigation,
   Shield,
   Sprout,
+  Store,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -56,6 +57,15 @@ const projects = [
     slug: "access-guard",
     tags: ["ESP32", "C++", "PlatformIO", "IoT", "Embedded Systems", "GSM"],
     live: null,
+  },
+  {
+    icon: Store,
+    name: "SariPOS — Offline-First Sari-Sari Store POS",
+    description:
+      "Lightweight, offline-first point-of-sale app for sari-sari stores with stock tracking, utang management, e-load sales, and daily reports.",
+    slug: "saripos",
+    tags: ["Next.js", "React", "TypeScript", "Dexie", "IndexedDB", "Tailwind CSS"],
+    live: "https://saripos.sitebox.tech",
   },
 ];
 
