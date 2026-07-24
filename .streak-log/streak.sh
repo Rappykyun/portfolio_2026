@@ -60,6 +60,6 @@ EOF
 # Commit and push
 git add -A 2>/dev/null
 git commit -m "$MSG"
-git push origin main 2>&1
+git push origin master 2>&1
 
 echo "✅ Streak commit pushed: $MSG"
