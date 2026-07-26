@@ -21,3 +21,7 @@
 ## 2026-07-25
 
 - **02:00 AM UTC** — Momentum matters.
+
+## 2026-07-26
+
+- **02:00 AM UTC** — Just ship.
