@@ -41,3 +41,7 @@
 ## 2026-07-30
 
 - **02:00 AM UTC** — Keep shipping.
+
+## 2026-07-31
+
+- **02:00 AM UTC** — Brick by brick.
