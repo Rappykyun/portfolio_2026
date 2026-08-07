@@ -28,10 +28,10 @@ export function GitHubContributions() {
         id="github-activity-title"
         className="font-incognito text-xl font-bold sm:text-2xl"
       >
-        GitHub activity
+        Recent GitHub activity
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400 sm:text-base">
-        Public and anonymized private contributions from the last year.
+        A snapshot of the projects, experiments, and learning behind my last year in software.
       </p>
       <div className="mt-5 overflow-x-auto pb-2">
         <GitHubCalendar

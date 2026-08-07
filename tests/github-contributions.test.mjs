@@ -34,7 +34,7 @@ test("GitHub contributions keep the approved default range and anonymized copy",
   assert.doesNotMatch(calendarMatch[1], /\byear\s*=/);
   assert.match(
     component,
-    /Public and anonymized private contributions from the last year\./,
+    /A snapshot of the projects, experiments, and learning behind my last year in software\./,
   );
 });
 
@@ -43,7 +43,7 @@ test("GitHub contributions keep semantic responsive and dark theme structure", a
 
   assert.match(
     component,
-    /<h2\b[^>]*\bid=["']github-activity-title["'][^>]*>\s*GitHub activity\s*<\/h2>/,
+    /<h2\b[^>]*\bid=["']github-activity-title["'][^>]*>\s*Recent GitHub activity\s*<\/h2>/,
   );
   assert.match(
     component,
