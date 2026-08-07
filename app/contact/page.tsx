@@ -1,46 +1,19 @@
 "use client";
 
-import { useState } from "react";
-import { Mail, MapPin, Phone, Send, CheckCircle } from "lucide-react";
+import { Mail, MapPin, Phone } from "lucide-react";
 import { motion } from "framer-motion";
 
+const email = "ralphvincentrodriguez@sksu.edu.ph";
+const emailHref =
+  "mailto:ralphvincentrodriguez@sksu.edu.ph?subject=Portfolio%20inquiry";
+
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setTimeout(() => setIsSubmitted(false), 3000);
-  };
-
   const contactInfo = [
     {
       icon: Mail,
       label: "Email",
-      value: "ralphvincentrodriguez@sksu.edu.ph",
-      href: "mailto:ralphvincentrodriguez@sksu.edu.ph",
+      value: email,
+      href: emailHref,
     },
     {
       icon: MapPin,
@@ -83,9 +56,9 @@ export default function Contact() {
             Let&apos;s Connect
           </h2>
           <div className="space-y-4">
-            {contactInfo.map((item, index) => (
+            {contactInfo.map((item) => (
               <div
-                key={index}
+                key={item.label}
                 className="flex items-start gap-4 p-4 rounded-lg bg-zinc-50 dark:bg-zinc-800/50"
               >
                 <div className="p-2 bg-green-100 rounded-lg dark:bg-green-900/30">
@@ -120,119 +93,20 @@ export default function Contact() {
           className="lg:col-span-2"
         >
           <div className="p-8 bg-white border rounded-lg dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-            <h2 className="mb-6 text-2xl font-bold font-incognito">
+            <h2 className="mb-4 text-2xl font-bold font-incognito">
               Send a Message
             </h2>
-
-            {isSubmitted && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-3 p-4 mb-6 border border-green-200 rounded-lg bg-green-50 dark:bg-green-900/20 dark:border-green-800"
-              >
-                <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                <p className="text-green-700 dark:text-green-300">
-                  Thanks for your message! I&apos;ll get back to you soon.
-                </p>
-              </motion.div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                  >
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 transition-colors border rounded-lg bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                  >
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 transition-colors border rounded-lg bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                >
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 transition-colors border rounded-lg bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="What's this about?"
-                />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                >
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 transition-colors border rounded-lg resize-none bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Tell me about your project or opportunity..."
-                />
-              </div>
-
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center justify-center w-full gap-2 px-8 py-3 font-semibold text-white transition-colors bg-green-600 rounded-lg md:w-auto hover:bg-green-700 disabled:bg-green-400"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Send Message
-                  </>
-                )}
-              </button>
-            </form>
+            <p className="max-w-xl mb-6 text-zinc-600 dark:text-zinc-400">
+              Your email app will open with a new draft. Send it from there and
+              I&apos;ll receive it directly.
+            </p>
+            <a
+              href={emailHref}
+              className="inline-flex items-center gap-2 px-8 py-3 font-semibold text-white transition-colors bg-green-600 rounded-lg hover:bg-green-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/60"
+            >
+              <Mail className="w-4 h-4" />
+              Open Email
+            </a>
           </div>
         </motion.section>
       </div>

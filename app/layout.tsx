@@ -13,7 +13,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://your-domain.com"),
+  metadataBase: new URL("https://ralphvincent.tech"),
   title:
     "Ralph Vincent Rodriguez - Computer Science Student & Aspiring Software Engineer",
   description:
@@ -47,9 +47,14 @@ export const metadata: Metadata = {
     description:
       "Computer Science student passionate about software development and creating innovative solutions. Explore my projects and get in touch!",
     type: "website",
-    url: "https://your-domain.com",
+    url: "https://ralphvincent.tech",
     siteName: "Ralph Vincent Rodriguez Portfolio",
-    images: [{ url: "/og-image.png", alt: "Ralph Vincent Rodriguez Portfolio" }],
+    images: [
+      {
+        url: "/portfolio_pic_v2.png",
+        alt: "Portrait of Ralph Vincent Rodriguez",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -57,7 +62,7 @@ export const metadata: Metadata = {
       "Ralph Vincent Rodriguez - Computer Science Student & Software Engineer",
     description:
       "Computer Science student passionate about software development and creating innovative solutions.",
-    images: ["/og-image.png"],
+    images: ["/portfolio_pic_v2.png"],
   },
 };
 
@@ -68,7 +73,7 @@ const structuredData = {
   jobTitle: "Computer Science Student",
   description:
     "Computer Science student at Sultan Kudarat State University, aspiring software engineer",
-  url: "https://your-domain.com",
+  url: "https://ralphvincent.tech",
   email: "ralphvincentrodriguez@sksu.edu.ph",
   address: {
     "@type": "PostalAddress",

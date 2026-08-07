@@ -41,8 +41,7 @@ export function Hero() {
             />
           </div>
           <a
-            href="/cv.pdf"
-            download
+            href="mailto:ralphvincentrodriguez@sksu.edu.ph?subject=CV%20request"
             className="relative w-full overflow-hidden rounded-md border border-green-600/60 bg-green-600 px-4 py-2 text-center font-incognito text-white transition-colors duration-200 hover:bg-green-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/70"
           >
             <span
@@ -54,7 +53,7 @@ export function Hero() {
               aria-hidden="true"
               className="absolute inset-0 rounded-md bg-black/25 dark:bg-black/40"
             />
-            <span className="relative z-10">Download CV</span>
+            <span className="relative z-10">Request CV</span>
           </a>
         </div>
 
