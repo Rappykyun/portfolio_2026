@@ -54,6 +54,14 @@ test("GitHub contributions keep semantic responsive and dark theme structure", a
   assert.match(component, /\bdark:text-zinc-400\b/);
 });
 
+test("GitHub calendar follows the portfolio theme class", async () => {
+  const component = await read("app/_components/GitHubContributions.tsx");
+
+  assert.match(component, /MutationObserver/);
+  assert.match(component, /classList\.contains\(["']dark["']\)/);
+  assert.match(component, /colorScheme=\{colorScheme\}/);
+});
+
 test("GitHub contributions do not add custom animation or server fetching", async () => {
   const component = await read("app/_components/GitHubContributions.tsx");
 

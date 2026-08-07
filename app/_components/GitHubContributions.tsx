@@ -1,8 +1,24 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { GitHubCalendar } from "react-github-calendar";
 
 export function GitHubContributions() {
+  const [colorScheme, setColorScheme] = useState<"light" | "dark">("light");
+
+  useEffect(() => {
+    const root = document.documentElement;
+    const syncColorScheme = () => {
+      setColorScheme(root.classList.contains("dark") ? "dark" : "light");
+    };
+
+    syncColorScheme();
+    const observer = new MutationObserver(syncColorScheme);
+    observer.observe(root, { attributes: true, attributeFilter: ["class"] });
+
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       aria-labelledby="github-activity-title"
@@ -20,6 +36,7 @@ export function GitHubContributions() {
       <div className="mt-5 overflow-x-auto pb-2">
         <GitHubCalendar
           username="Rappykyun"
+          colorScheme={colorScheme}
           errorMessage="GitHub activity is temporarily unavailable."
         />
       </div>
