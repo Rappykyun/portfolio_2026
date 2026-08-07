@@ -60,4 +60,9 @@ test("GitHub contributions do not add custom animation or server fetching", asyn
   assert.doesNotMatch(component, /\bfetch\s*\(/);
   assert.doesNotMatch(component, /["']use server["']/);
   assert.doesNotMatch(component, /\b(?:token|api[-_]?key|authorization|secret)\b/i);
+  assert.doesNotMatch(
+    component,
+    /\b(?:animate|animation|motion|transition)\b|@keyframes|requestAnimationFrame/i,
+    "the component should not add custom animation or motion code",
+  );
 });
