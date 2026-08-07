@@ -1,6 +1,7 @@
 import { Hero } from "./_components/Hero";
 import TechStack from "./_components/TechStack";
 import { Experiences } from "./_components/Experiences";
+import { GitHubContributions } from "./_components/GitHubContributions";
 import { Certificates } from "./_components/Certificates";
 
 const sectionClass =
@@ -17,6 +18,7 @@ export default function Home() {
         <section className={sectionClass}>
           <Experiences compact />
         </section>
+        <GitHubContributions />
         <section className={sectionClass}>
           <Certificates compact />
         </section>
