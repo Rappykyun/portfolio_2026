@@ -91,14 +91,14 @@ export default function Projects() {
               <Link
                 key={project.slug}
                 href={`/projects/${project.slug}`}
-                className="group flex flex-col gap-3 rounded-xl border border-zinc-200/70 bg-white/60 p-4 transition-all duration-200 hover:border-green-500/40 hover:shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900/30 dark:hover:border-green-500/30"
+                className="group flex h-full flex-col gap-3 rounded-xl border border-zinc-200/70 bg-white/60 p-4 transition-all duration-200 hover:border-green-500/40 hover:shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900/30 dark:hover:border-green-500/30"
               >
                 <div className="flex items-start gap-3">
                   <div className="rounded-lg border border-zinc-200/70 bg-zinc-100/80 p-2.5 dark:border-zinc-700/60 dark:bg-zinc-800/60">
                     <project.icon className="h-5 w-5 text-green-600 dark:text-green-400" />
                   </div>
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
+                    <div className="flex items-start justify-between gap-2 sm:min-h-12">
                       <h2 className="font-incognito text-base font-semibold text-zinc-900 dark:text-zinc-100">
                         {project.name}
                       </h2>
@@ -109,7 +109,7 @@ export default function Projects() {
                     </p>
                   </div>
                 </div>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="mt-auto flex flex-wrap gap-1.5">
                   {project.tags.map((tag) => (
                     <span
                       key={tag}
