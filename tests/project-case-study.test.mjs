@@ -79,13 +79,83 @@ test("project list and detail route read from the shared source", async () => {
   assert.match(detail, /getProjectBySlug\(projectId\)/);
 });
 
-test("missing CHED screenshot renders a neutral accessible placeholder", async () => {
+test("reusable evidence screenshot defines a stable responsive contract", async () => {
+  const component = await read("app/_components/EvidenceScreenshot.tsx");
+
+  assert.match(component, /^"use client";/);
+  assert.match(component, /export interface EvidenceScreenshotProps/);
+  assert.match(component, /screenshotPath: string \| null/);
+  assert.match(component, /screenshotAlt: string/);
+  assert.match(component, /aspect-video/);
+  assert.match(
+    component,
+    /sizes="\(max-width: 640px\) calc\(100vw - 5rem\), \(max-width: 1024px\) calc\(100vw - 9\.5rem\), 872px"/,
+  );
+});
+
+test("CHED uses the reusable evidence screenshot with project data", async () => {
   const detail = await read("app/projects/[projectId]/page.tsx");
 
-  assert.match(detail, /caseStudy\.screenshotPath \?/);
+  assert.match(
+    detail,
+    /import \{ EvidenceScreenshot \} from "@\/app\/_components\/EvidenceScreenshot";/,
+  );
   assert.match(detail, /Project screenshot/);
-  assert.match(detail, /Screenshot coming soon/);
-  assert.match(detail, /Temporary screenshot placeholder/);
-  assert.doesNotMatch(detail, /role="img"/);
-  assert.doesNotMatch(detail, /aria-label=\{caseStudy\.screenshotAlt\}/);
+  assert.match(
+    detail,
+    /<EvidenceScreenshot[\s\S]*screenshotPath=\{caseStudy\.screenshotPath\}[\s\S]*screenshotAlt=\{caseStudy\.screenshotAlt\}/,
+  );
+  assert.doesNotMatch(detail, /<Image\b/);
+});
+
+test("missing screenshot renders a neutral accessible placeholder", async () => {
+  const component = await read("app/_components/EvidenceScreenshot.tsx");
+
+  assert.match(component, /Screenshot coming soon/);
+  assert.match(component, /Temporary screenshot placeholder/);
+  assert.doesNotMatch(component, /role="status"/);
+  assert.doesNotMatch(component, /aria-live/);
+  assert.doesNotMatch(component, /role="img"/);
+  assert.doesNotMatch(component, /aria-label=\{screenshotAlt\}/);
+});
+
+test("configured screenshot uses its path and meaningful alternative text", async () => {
+  const component = await read("app/_components/EvidenceScreenshot.tsx");
+
+  assert.match(component, /src=\{activeScreenshotPath\}/);
+  assert.match(component, /alt=\{screenshotAlt\}/);
+  assert.match(component, /activeScreenshotPath =/);
+  assert.match(component, /key=\{activeScreenshotPath\}/);
+});
+
+test("image state resets when the screenshot path changes", async () => {
+  const component = await read("app/_components/EvidenceScreenshot.tsx");
+
+  assert.match(component, /useState<string \| null>\(\s*null/);
+  assert.match(
+    component,
+    /useEffect\(\(\) => \{\s*startTransition\(\(\) => setFailedScreenshotPath\(null\)\);\s*\}, \[screenshotPath\]\)/,
+  );
+  assert.match(component, /failedScreenshotPath === screenshotPath/);
+  assert.match(
+    component,
+    /onError=\{\(\) => setFailedScreenshotPath\(activeScreenshotPath\)\}/,
+  );
+  assert.match(component, /activeScreenshotPath \? /);
+});
+
+test("configured screenshot failures use clear visible copy", async () => {
+  const component = await read("app/_components/EvidenceScreenshot.tsx");
+
+  assert.match(component, /screenshotLoadFailed/);
+  assert.match(component, /Screenshot unavailable/);
+  assert.match(component, /The configured screenshot could not be loaded\./);
+});
+
+test("loaded screenshot captions complement the detailed alternative text", async () => {
+  const component = await read("app/_components/EvidenceScreenshot.tsx");
+  const caption = component.slice(component.indexOf("<figcaption"));
+
+  assert.match(caption, /Project screenshot shown above\./);
+  assert.doesNotMatch(caption, /screenshotAlt/);
 });

@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import {
@@ -7,10 +6,10 @@ import {
   Code,
   ExternalLink,
   Github,
-  Image as ImageIcon,
   KeyRound,
   Users,
 } from "lucide-react";
+import { EvidenceScreenshot } from "@/app/_components/EvidenceScreenshot";
 import { getProjectBySlug } from "@/lib/projects";
 
 const sectionClass =
@@ -176,37 +175,12 @@ export default async function ProjectPage({
               >
                 Project screenshot
               </h2>
-              <figure className="mt-4">
-                <div className="relative flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-dashed border-zinc-300 bg-zinc-100/80 dark:border-zinc-700 dark:bg-zinc-900/60">
-                  {caseStudy.screenshotPath ? (
-                    <Image
-                      src={caseStudy.screenshotPath}
-                      alt={caseStudy.screenshotAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 768px"
-                      className="object-cover"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center gap-3 px-5 text-center text-zinc-500 dark:text-zinc-400">
-                      <ImageIcon
-                        aria-hidden="true"
-                        className="h-8 w-8 text-zinc-400 dark:text-zinc-500"
-                      />
-                      <p className="text-sm font-semibold text-zinc-700 dark:text-zinc-200">
-                        Screenshot coming soon
-                      </p>
-                      <p className="max-w-md text-sm">
-                        A real screenshot will replace this temporary placeholder.
-                      </p>
-                    </div>
-                  )}
-                </div>
-                <figcaption className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-                  {caseStudy.screenshotPath
-                    ? caseStudy.screenshotAlt
-                    : "Temporary screenshot placeholder. Final screenshot is still pending."}
-                </figcaption>
-              </figure>
+              <div className="mt-4">
+                <EvidenceScreenshot
+                  screenshotPath={caseStudy.screenshotPath}
+                  screenshotAlt={caseStudy.screenshotAlt}
+                />
+              </div>
             </section>
           </>
         )}
