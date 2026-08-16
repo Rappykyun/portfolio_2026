@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+
 # Portfolio 2026 — daily streak keeper
 # Adds a lightweight daily entry and pushes to keep GitHub streak alive
 # Portfolio source code is NEVER modified.
@@ -49,6 +51,15 @@ QUOTE="${QUOTES[$RAND_Q]}"
 
 cd "$REPO_DIR" || exit 1
 
+# Reconcile changes made directly on GitHub before creating the daily entry.
+git pull --rebase --autostash origin master
+
+# Avoid duplicate entries if the job is manually retried or runs twice in one UTC day.
+if grep -q "^## $DATE$" "$STREAK_FILE"; then
+  echo "ℹ️ Streak entry already exists for $DATE; nothing to push."
+  exit 0
+fi
+
 # Append entry
 cat >> "$STREAK_FILE" << EOF
 
@@ -57,9 +68,9 @@ cat >> "$STREAK_FILE" << EOF
 - **$TIME** — ${QUOTE}
 EOF
 
-# Commit and push
-git add -A 2>/dev/null
+# Commit and push only the streak log; do not accidentally include source changes.
+git add -- "$STREAK_FILE"
 git commit -m "$MSG"
-git push origin master 2>&1
+git push origin master
 
 echo "✅ Streak commit pushed: $MSG"
