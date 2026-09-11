@@ -30,14 +30,11 @@ export default function ProjectsPage() {
       <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
         <div className="site-container">
           <div className="max-w-2xl">
-            <p className="eyebrow">Case Studies & Deliverables</p>
-            <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-              Engineered software with verified outcomes
+            <h1 className="font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              Projects
             </h1>
-            <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg">
-              Explore documented systems delivered across four core technical domains: web platforms,
-              mobile dispatch applications, machine learning forecasting engines, and embedded IoT
-              security controls.
+            <p className="mt-4 text-base leading-relaxed text-zinc-400 sm:text-lg">
+              Web, mobile, data, and IoT projects that I have built.
             </p>
           </div>
         </div>
@@ -101,7 +98,7 @@ export default function ProjectsPage() {
                       </div>
 
                       <div className="mt-4 flex items-center justify-between text-xs font-mono font-medium text-foreground group-hover:text-signal">
-                        <span>View case study</span>
+                        <span>View project</span>
                         <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                       </div>
                     </div>

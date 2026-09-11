@@ -34,9 +34,8 @@ export function Footer() {
             <p className="font-display text-base font-medium text-foreground">
               Ralph Vincent Rodriguez
             </p>
-            <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
-              Available for freelance engineering, fullstack application development, and technical
-              consulting.
+            <p className="text-sm leading-relaxed text-zinc-400">
+              Available for freelance web, mobile, and full-stack development.
             </p>
             <div className="pt-2">
               <Link

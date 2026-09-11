@@ -110,7 +110,7 @@ export default async function ProjectDetailPage({
         </div>
       </section>
 
-      {/* Case Study Body: About */}
+      {/* Project overview */}
       <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
         <div className="site-container">
           <div className="max-w-3xl">
@@ -128,9 +128,9 @@ export default async function ProjectDetailPage({
       {/* Core Features */}
       <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
         <div className="site-container">
-          <p className="eyebrow">Deliverables</p>
+          <p className="eyebrow">Features</p>
           <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Key functional features
+            Main features
           </h2>
 
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
@@ -218,7 +218,7 @@ export default async function ProjectDetailPage({
         </section>
       )}
 
-      {/* Previous / Next Case Study Navigation */}
+      {/* Previous and next project navigation */}
       <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
         <div className="site-container">
           <div className="flex flex-col sm:flex-row items-stretch justify-between gap-4">

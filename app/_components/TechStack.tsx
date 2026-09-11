@@ -29,17 +29,16 @@ export function TechStack() {
     return (
       <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
         <div className="site-container">
-          <div className="max-w-xl">
-            <p className="eyebrow">Tooling</p>
-            <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-              Core technologies and tools
+          <div className="mx-auto max-w-xl text-center">
+            <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              Tools I use
             </h2>
           </div>
-          <ul className="mt-8 flex flex-wrap gap-3" aria-label="Technologies list">
+          <ul className="mt-8 flex flex-wrap justify-center gap-3" aria-label="Technologies list">
             {icons.map(({ name, Icon }) => (
               <li
                 key={name}
-                className="flex items-center gap-2.5 rounded-lg border border-zinc-200/80 bg-surface px-4 py-2.5 shadow-sm dark:border-zinc-800/80"
+                className="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-surface px-4 py-2.5 shadow-sm"
               >
                 <div className="h-5 w-5 shrink-0 [&>svg]:h-5 [&>svg]:w-5 text-foreground">
                   <Icon />
@@ -57,7 +56,7 @@ export function TechStack() {
     title: name,
     ariaLabel: name,
     node: (
-      <div className="flex items-center gap-2.5 rounded-lg border border-zinc-200/80 bg-surface px-4 py-2.5 shadow-sm transition-colors dark:border-zinc-800/80">
+      <div className="flex items-center gap-2.5 rounded-lg border border-zinc-800 bg-surface px-4 py-2.5 shadow-sm">
         <div className="h-5 w-5 shrink-0 [&>svg]:h-5 [&>svg]:w-5 text-foreground">
           <Icon />
         </div>
@@ -69,13 +68,12 @@ export function TechStack() {
   return (
     <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
       <div className="site-container">
-        <div className="mb-8 max-w-xl">
-          <p className="eyebrow">Tooling</p>
-          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-            Core technologies and tools
+        <div className="mx-auto mb-8 max-w-xl text-center">
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Tools I use
           </h2>
-          <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-base">
-            Battle-tested frameworks, languages, and tools leveraged across client and research projects.
+          <p className="mt-3 text-sm leading-relaxed text-zinc-400 sm:text-base">
+            The main tools I use to build and deliver projects.
           </p>
         </div>
 

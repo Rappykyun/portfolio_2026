@@ -22,13 +22,12 @@ const siteUrl = process.env.SITE_URL ?? "http://localhost:3000";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Ralph Vincent Rodriguez — Fullstack Software Engineer",
+  title: "Ralph Vincent Rodriguez — Full-stack Developer",
   description:
-    "Portfolio and case studies of Ralph Vincent Rodriguez. Building web applications, mobile platforms, machine learning systems, and IoT solutions.",
+    "Portfolio of Ralph Vincent Rodriguez, a full-stack developer who builds web, mobile, data, and IoT projects.",
   keywords: [
     "Ralph Vincent Rodriguez",
-    "Software Engineer",
-    "Fullstack Developer",
+    "Full-stack Developer",
     "Web Developer",
     "React",
     "Next.js",
@@ -52,18 +51,18 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title: "Ralph Vincent Rodriguez — Fullstack Software Engineer",
+    title: "Ralph Vincent Rodriguez — Full-stack Developer",
     description:
-      "Fullstack software engineer building web applications, mobile platforms, data systems, and IoT solutions. Explore verified project case studies.",
+      "Full-stack developer building web, mobile, data, and IoT projects.",
     type: "website",
     url: siteUrl,
     siteName: "Ralph Vincent Rodriguez Portfolio",
   },
   twitter: {
     card: "summary",
-    title: "Ralph Vincent Rodriguez — Fullstack Software Engineer",
+    title: "Ralph Vincent Rodriguez — Full-stack Developer",
     description:
-      "Fullstack software engineer building web applications, mobile platforms, data systems, and IoT solutions.",
+      "Full-stack developer building web, mobile, data, and IoT projects.",
   },
 };
 
@@ -71,9 +70,9 @@ const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Ralph Vincent Rodriguez",
-  jobTitle: "Fullstack Software Engineer",
+  jobTitle: "Full-stack Developer",
   description:
-    "Fullstack software engineer building web applications, mobile platforms, data systems, and IoT prototypes.",
+    "Full-stack developer building web, mobile, data, and IoT projects.",
   url: siteUrl,
   email: "ralphvincentrodriguez@sksu.edu.ph",
   address: {
@@ -92,16 +91,6 @@ const structuredData = {
   ],
 };
 
-// Set the theme class before paint to avoid a flash and SSR/localStorage mismatch.
-const themeScript = `
-(function () {
-  try {
-    var stored = localStorage.getItem('theme');
-    var isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
-    document.documentElement.classList.toggle('dark', isDark);
-  } catch {}
-})();
-`;
 
 export default function RootLayout({
   children,
@@ -111,8 +100,8 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${display.variable} ${mono.variable}`}
-      suppressHydrationWarning
+      className={`dark ${display.variable} ${mono.variable}`}
+      style={{ colorScheme: "dark" }}
     >
       <head>
         <meta name="theme-color" content="#16a34a" />
@@ -122,9 +111,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body className="bg-background text-foreground antialiased selection:bg-signal/20 selection:text-signal">
+      <body className="overflow-x-hidden bg-background text-foreground antialiased selection:bg-signal/20 selection:text-signal">
         <SiteEffects />
         <div className="relative z-10 flex min-h-screen flex-col">
           <Header />

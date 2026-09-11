@@ -14,8 +14,8 @@ export default function NotFound() {
         </h1>
 
         <p className="mt-4 max-w-md text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-          The requested page or case study could not be located. It may have been moved, renamed,
-          or does not exist.
+          The requested page or project could not be found. It may have been moved, renamed, or
+          removed.
         </p>
 
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">

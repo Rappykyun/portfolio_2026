@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
-import MoonIcon from "./icons/MoonIcon";
-import SunIcon from "./icons/SunIcon";
 
 const navItems = [
   { label: "Home", to: "/" },
@@ -30,7 +28,7 @@ export function Header() {
 
 
   return (
-    <header className="sticky top-0 z-40 border-b border-zinc-200/80 bg-surface/85 backdrop-blur-md transition-colors dark:border-zinc-800/80 dark:bg-surface/85">
+    <header className="sticky top-0 z-40 border-b border-zinc-800/80 bg-surface/85 backdrop-blur-md">
       <div className="site-container flex h-16 items-center justify-between gap-4">
         {/* Monogram Brand */}
         <Link
@@ -56,7 +54,7 @@ export function Header() {
                 className={`focus-ring rounded-lg px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors ${
                   isActive
                     ? "font-semibold text-signal"
-                    : "text-zinc-600 hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+                    : "text-zinc-400 hover:text-foreground"
                 }`}
               >
                 {item.label}
@@ -65,36 +63,12 @@ export function Header() {
           })}
         </nav>
 
-        {/* Right side: Theme toggle and mobile menu button */}
-        <div className="flex items-center gap-2">
-          <button
-            onClick={(event) => {
-              const isDark = document.documentElement.classList.toggle("dark");
-              localStorage.setItem("theme", isDark ? "dark" : "light");
-              event.currentTarget.setAttribute(
-                "aria-label",
-                `Switch to ${isDark ? "light" : "dark"} theme`,
-              );
-            }}
-            type="button"
-            className="focus-ring flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200/80 text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-800/80 dark:text-zinc-300 dark:hover:bg-zinc-800/60"
-            aria-label="Toggle color theme"
-          >
-            <div className="relative h-5 w-5">
-              <div className="absolute inset-0 hidden dark:block">
-                <SunIcon />
-              </div>
-              <div className="absolute inset-0 dark:hidden">
-                <MoonIcon />
-              </div>
-            </div>
-          </button>
-
+        <div>
           {/* Mobile menu trigger */}
           <button
             onClick={() => setIsOpen(!isOpen)}
             type="button"
-            className="focus-ring flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200/80 text-foreground md:hidden transition-colors hover:bg-zinc-100 dark:border-zinc-800/80 dark:hover:bg-zinc-800/60"
+            className="focus-ring flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-800 text-foreground transition-colors hover:bg-zinc-800/60 md:hidden"
             aria-label="Toggle menu"
             aria-expanded={isOpen}
             aria-controls="mobile-nav"
@@ -106,7 +80,7 @@ export function Header() {
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden ${isOpen ? "border-t border-zinc-200/80 dark:border-zinc-800/80" : ""}`}
+        className={`md:hidden ${isOpen ? "border-t border-zinc-800/80" : ""}`}
       >
         <nav
           id="mobile-nav"
@@ -131,7 +105,7 @@ export function Header() {
                     className={`focus-ring flex h-11 items-center rounded-lg px-3 font-mono text-sm uppercase tracking-wider transition-colors ${
                       isActive
                         ? "font-semibold text-signal bg-signal/10"
-                        : "text-zinc-600 hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+                        : "text-zinc-400 hover:text-foreground"
                     }`}
                   >
                     {item.label}
