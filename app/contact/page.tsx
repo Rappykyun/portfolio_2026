@@ -1,241 +1,366 @@
 "use client";
 
-import { useState } from "react";
-import { Mail, MapPin, Phone, Send, CheckCircle } from "lucide-react";
-import { motion } from "framer-motion";
+import { useActionState, useEffect, useRef } from "react";
+import { Mail, MapPin, Clock, Send, CheckCircle2, AlertCircle, Loader2 } from "lucide-react";
+import { submitInquiry } from "./actions";
+import {
+  initialInquiryState,
+  PROJECT_TYPES,
+  BUDGET_RANGES,
+} from "@/lib/inquiry";
 
-export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: "",
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
+export default function ContactPage() {
+  const [state, formAction, pending] = useActionState(
+    submitInquiry,
+    initialInquiryState,
+  );
+  const formRef = useRef<HTMLFormElement>(null);
+  const submittedValuesRef = useRef<FormData>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  useEffect(() => {
+    if (state.status === "success") {
+      formRef.current?.reset();
+      submittedValuesRef.current = null;
+      return;
+    }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    if (state.status !== "error" || !formRef.current || !submittedValuesRef.current) return;
 
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: "", email: "", subject: "", message: "" });
-    setTimeout(() => setIsSubmitted(false), 3000);
-  };
-
-  const contactInfo = [
-    {
-      icon: Mail,
-      label: "Email",
-      value: "ralphvincentrodriguez@sksu.edu.ph",
-      href: "mailto:ralphvincentrodriguez@sksu.edu.ph",
-    },
-    {
-      icon: MapPin,
-      label: "Location",
-      value: "Sultan Kudarat, Philippines",
-      href: null,
-    },
-    {
-      icon: Phone,
-      label: "Available for",
-      value: "Remote Opportunities",
-      href: null,
-    },
-  ];
+    for (const [name, value] of submittedValuesRef.current) {
+      const field = formRef.current.elements.namedItem(name);
+      if (
+        typeof value === "string" &&
+        (field instanceof HTMLInputElement ||
+          field instanceof HTMLSelectElement ||
+          field instanceof HTMLTextAreaElement)
+      ) {
+        field.value = value;
+      }
+    }
+  }, [state]);
 
   return (
-    <main className="px-6 mx-auto mt-20 mb-20 max-w-7xl md:px-16 lg:mt-32">
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-      >
-        <h1 className="mb-8 text-6xl font-bold font-incognito">Get In Touch</h1>
-        <p className="max-w-3xl mb-12 text-lg text-gray-600 sm:text-xl dark:text-gray-400">
-          I&apos;m always interested in hearing about new opportunities, especially
-          ambitious or large-scale projects. Whether you&apos;re a company looking to
-          hire, or you&apos;re a fellow developer who&apos;d like to collaborate, I&apos;d love
-          to hear from you.
-        </p>
-      </motion.section>
+    <main>
+      {/* Header */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Direct Inquiry</p>
+            <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              Start a project inquiry
+            </h1>
+            <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg">
+              Have an application to build, a machine learning challenge, or need technical consulting?
+              Submit your project brief below or reach out directly via email.
+            </p>
+          </div>
+        </div>
+      </section>
 
-      <div className="grid gap-12 lg:grid-cols-3">
-        <motion.section
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="lg:col-span-1"
-        >
-          <h2 className="mb-6 text-2xl font-bold font-incognito">
-            Let&apos;s Connect
-          </h2>
-          <div className="space-y-4">
-            {contactInfo.map((item, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-4 p-4 rounded-lg bg-zinc-50 dark:bg-zinc-800/50"
-              >
-                <div className="p-2 bg-green-100 rounded-lg dark:bg-green-900/30">
-                  <item.icon className="w-5 h-5 text-green-600 dark:text-green-400" />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-zinc-900 dark:text-zinc-100">
-                    {item.label}
-                  </h3>
-                  {item.href ? (
+      <section className="section-space">
+        <div className="site-container">
+          <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+            {/* Sidebar info */}
+            <aside className="lg:col-span-4 space-y-8">
+              <div>
+                <h2 className="font-display text-xl font-medium text-foreground">
+                  Direct contact
+                </h2>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  Feel free to send a direct email if you already have an RFP or technical specification document.
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div className="flex items-start gap-3.5 rounded-2xl border border-zinc-200/80 bg-surface p-4 shadow-sm dark:border-zinc-800/80">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200/80 bg-background text-signal dark:border-zinc-800/80">
+                    <Mail className="h-5 w-5" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="font-mono text-xs text-zinc-500">Email</p>
                     <a
-                      href={item.href}
-                      className="transition-colors text-zinc-600 dark:text-zinc-400 hover:text-green-600 dark:hover:text-green-400"
+                      href="mailto:ralphvincentrodriguez@sksu.edu.ph"
+                      className="focus-ring mt-0.5 block truncate font-mono text-xs font-semibold text-foreground hover:text-signal"
                     >
-                      {item.value}
+                      ralphvincentrodriguez@sksu.edu.ph
                     </a>
-                  ) : (
-                    <p className="text-zinc-600 dark:text-zinc-400">
-                      {item.value}
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 rounded-2xl border border-zinc-200/80 bg-surface p-4 shadow-sm dark:border-zinc-800/80">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200/80 bg-background text-signal dark:border-zinc-800/80">
+                    <MapPin className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-mono text-xs text-zinc-500">Location</p>
+                    <p className="mt-0.5 text-xs font-semibold text-foreground">
+                      Sultan Kudarat, Philippines (UTC+8)
                     </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3.5 rounded-2xl border border-zinc-200/80 bg-surface p-4 shadow-sm dark:border-zinc-800/80">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-zinc-200/80 bg-background text-signal dark:border-zinc-800/80">
+                    <Clock className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-mono text-xs text-zinc-500">Response time</p>
+                    <p className="mt-0.5 text-xs font-semibold text-foreground">
+                      Typically within 1–2 business days
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </aside>
+
+            {/* Form Area */}
+            <div className="lg:col-span-8">
+              <div className="rounded-3xl border border-zinc-200/80 bg-surface p-6 sm:p-10 shadow-sm dark:border-zinc-800/80">
+                <h2 className="font-display text-xl font-medium text-foreground sm:text-2xl">
+                  Project details
+                </h2>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  Please provide high-level details about what you are aiming to build.
+                </p>
+
+                {/* Status Message */}
+                <div aria-live="polite" className="mt-6">
+                  {state.status === "success" && (
+                    <div className="flex items-start gap-3 rounded-xl border border-signal/40 bg-signal/10 p-4 text-signal">
+                      <CheckCircle2 className="h-5 w-5 shrink-0 mt-0.5" />
+                      <div className="text-sm font-medium">{state.message}</div>
+                    </div>
+                  )}
+
+                  {state.status === "error" && (
+                    <div className="flex items-start gap-3 rounded-xl border border-red-500/40 bg-red-500/10 p-4 text-red-600 dark:text-red-400">
+                      <AlertCircle className="h-5 w-5 shrink-0 mt-0.5" />
+                      <div className="text-sm font-medium">{state.message}</div>
+                    </div>
                   )}
                 </div>
-              </div>
-            ))}
-          </div>
-        </motion.section>
 
-        <motion.section
-          initial={{ opacity: 0, x: 20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="lg:col-span-2"
-        >
-          <div className="p-8 bg-white border rounded-lg dark:bg-zinc-900 border-zinc-200 dark:border-zinc-800">
-            <h2 className="mb-6 text-2xl font-bold font-incognito">
-              Send a Message
-            </h2>
-
-            {isSubmitted && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center gap-3 p-4 mb-6 border border-green-200 rounded-lg bg-green-50 dark:bg-green-900/20 dark:border-green-800"
-              >
-                <CheckCircle className="w-5 h-5 text-green-600 dark:text-green-400" />
-                <p className="text-green-700 dark:text-green-300">
-                  Thanks for your message! I&apos;ll get back to you soon.
-                </p>
-              </motion.div>
-            )}
-
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <div>
-                  <label
-                    htmlFor="name"
-                    className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                  >
-                    Name *
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 transition-colors border rounded-lg bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                  >
-                    Email *
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    required
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 transition-colors border rounded-lg bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                    placeholder="your@email.com"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="subject"
-                  className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
+                <form
+                  ref={formRef}
+                  action={formAction}
+                  onSubmit={(event) => {
+                    submittedValuesRef.current = new FormData(event.currentTarget);
+                  }}
+                  className="mt-8 space-y-6"
                 >
-                  Subject *
-                </label>
-                <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  required
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 transition-colors border rounded-lg bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="What's this about?"
-                />
-              </div>
+                  {/* Name & Email */}
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                      <label
+                        htmlFor="name"
+                        className="block font-mono text-xs font-semibold uppercase tracking-wider text-foreground"
+                      >
+                        Your Name <span className="text-signal">*</span>
+                      </label>
+                      <input
+                        id="name"
+                        name="name"
+                        type="text"
+                        required
+                        minLength={2}
+                        maxLength={80}
+                        placeholder="Ada Lovelace"
+                        aria-invalid={Boolean(state.fieldErrors?.name)}
+                        aria-describedby={
+                          state.fieldErrors?.name ? "name-error" : undefined
+                        }
+                        className="focus-ring mt-2 block w-full rounded-xl border border-zinc-200/80 bg-background px-4 py-3 font-sans text-sm text-foreground transition-colors placeholder:text-zinc-400 dark:border-zinc-800/80"
+                      />
+                      {state.fieldErrors?.name && (
+                        <p id="name-error" className="mt-1.5 font-mono text-xs text-red-500">
+                          {state.fieldErrors.name}
+                        </p>
+                      )}
+                    </div>
 
-              <div>
-                <label
-                  htmlFor="message"
-                  className="block mb-2 text-sm font-medium text-zinc-700 dark:text-zinc-300"
-                >
-                  Message *
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 transition-colors border rounded-lg resize-none bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700 focus:ring-2 focus:ring-green-500 focus:border-transparent"
-                  placeholder="Tell me about your project or opportunity..."
-                />
-              </div>
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block font-mono text-xs font-semibold uppercase tracking-wider text-foreground"
+                      >
+                        Email Address <span className="text-signal">*</span>
+                      </label>
+                      <input
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        maxLength={254}
+                        placeholder="ada@example.com"
+                        aria-invalid={Boolean(state.fieldErrors?.email)}
+                        aria-describedby={
+                          state.fieldErrors?.email ? "email-error" : undefined
+                        }
+                        className="focus-ring mt-2 block w-full rounded-xl border border-zinc-200/80 bg-background px-4 py-3 font-sans text-sm text-foreground transition-colors placeholder:text-zinc-400 dark:border-zinc-800/80"
+                      />
+                      {state.fieldErrors?.email && (
+                        <p id="email-error" className="mt-1.5 font-mono text-xs text-red-500">
+                          {state.fieldErrors.email}
+                        </p>
+                      )}
+                    </div>
+                  </div>
 
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="flex items-center justify-center w-full gap-2 px-8 py-3 font-semibold text-white transition-colors bg-green-600 rounded-lg md:w-auto hover:bg-green-700 disabled:bg-green-400"
-              >
-                {isSubmitting ? (
-                  <>
-                    <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin" />
-                    Sending...
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    Send Message
-                  </>
-                )}
-              </button>
-            </form>
+                  {/* Project Type & Budget */}
+                  <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+                    <div>
+                      <label
+                        htmlFor="projectType"
+                        className="block font-mono text-xs font-semibold uppercase tracking-wider text-foreground"
+                      >
+                        Project Domain <span className="text-signal">*</span>
+                      </label>
+                      <select
+                        id="projectType"
+                        name="projectType"
+                        required
+                        defaultValue=""
+                        aria-invalid={Boolean(state.fieldErrors?.projectType)}
+                        aria-describedby={
+                          state.fieldErrors?.projectType ? "type-error" : undefined
+                        }
+                        className="focus-ring mt-2 block w-full rounded-xl border border-zinc-200/80 bg-background px-4 py-3 font-sans text-sm text-foreground transition-colors dark:border-zinc-800/80"
+                      >
+                        <option value="" disabled>
+                          Select project domain
+                        </option>
+                        {PROJECT_TYPES.map((type) => (
+                          <option key={type} value={type}>
+                            {type}
+                          </option>
+                        ))}
+                      </select>
+                      {state.fieldErrors?.projectType && (
+                        <p id="type-error" className="mt-1.5 font-mono text-xs text-red-500">
+                          {state.fieldErrors.projectType}
+                        </p>
+                      )}
+                    </div>
+
+                    <div>
+                      <label
+                        htmlFor="budget"
+                        className="block font-mono text-xs font-semibold uppercase tracking-wider text-foreground"
+                      >
+                        Estimated Budget <span className="text-signal">*</span>
+                      </label>
+                      <select
+                        id="budget"
+                        name="budget"
+                        required
+                        defaultValue=""
+                        aria-invalid={Boolean(state.fieldErrors?.budget)}
+                        aria-describedby={
+                          state.fieldErrors?.budget ? "budget-error" : undefined
+                        }
+                        className="focus-ring mt-2 block w-full rounded-xl border border-zinc-200/80 bg-background px-4 py-3 font-sans text-sm text-foreground transition-colors dark:border-zinc-800/80"
+                      >
+                        <option value="" disabled>
+                          Select budget range
+                        </option>
+                        {BUDGET_RANGES.map((range) => (
+                          <option key={range} value={range}>
+                            {range}
+                          </option>
+                        ))}
+                      </select>
+                      {state.fieldErrors?.budget && (
+                        <p id="budget-error" className="mt-1.5 font-mono text-xs text-red-500">
+                          {state.fieldErrors.budget}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Timeline */}
+                  <div>
+                    <label
+                      htmlFor="timeline"
+                      className="block font-mono text-xs font-semibold uppercase tracking-wider text-foreground"
+                    >
+                      Desired Timeline <span className="text-signal">*</span>
+                    </label>
+                    <input
+                      id="timeline"
+                      name="timeline"
+                      type="text"
+                      required
+                      minLength={2}
+                      maxLength={80}
+                      placeholder="e.g. 4–6 weeks, Q3 launch, immediate"
+                      aria-invalid={Boolean(state.fieldErrors?.timeline)}
+                      aria-describedby={
+                        state.fieldErrors?.timeline ? "timeline-error" : undefined
+                      }
+                      className="focus-ring mt-2 block w-full rounded-xl border border-zinc-200/80 bg-background px-4 py-3 font-sans text-sm text-foreground transition-colors placeholder:text-zinc-400 dark:border-zinc-800/80"
+                    />
+                    {state.fieldErrors?.timeline && (
+                      <p id="timeline-error" className="mt-1.5 font-mono text-xs text-red-500">
+                        {state.fieldErrors.timeline}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Brief */}
+                  <div>
+                    <label
+                      htmlFor="brief"
+                      className="block font-mono text-xs font-semibold uppercase tracking-wider text-foreground"
+                    >
+                      Project Brief & Requirements <span className="text-signal">*</span>
+                    </label>
+                    <textarea
+                      id="brief"
+                      name="brief"
+                      rows={5}
+                      required
+                      minLength={20}
+                      maxLength={3000}
+                      placeholder="Describe the system, key user workflows, integrations needed, and current project stage (min. 20 characters)..."
+                      aria-invalid={Boolean(state.fieldErrors?.brief)}
+                      aria-describedby={
+                        state.fieldErrors?.brief ? "brief-error" : undefined
+                      }
+                      className="focus-ring mt-2 block w-full rounded-xl border border-zinc-200/80 bg-background px-4 py-3 font-sans text-sm text-foreground transition-colors placeholder:text-zinc-400 dark:border-zinc-800/80"
+                    />
+                    {state.fieldErrors?.brief && (
+                      <p id="brief-error" className="mt-1.5 font-mono text-xs text-red-500">
+                        {state.fieldErrors.brief}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Submit Button */}
+                  <div>
+                    <button
+                      type="submit"
+                      disabled={pending}
+                      className="focus-ring inline-flex h-12 w-full sm:w-auto items-center justify-center gap-2 rounded-xl bg-signal px-8 font-mono text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-signal-bright hover:text-ink disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {pending ? (
+                        <>
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                          <span>Submitting...</span>
+                        </>
+                      ) : (
+                        <>
+                          <span>Submit Inquiry</span>
+                          <Send className="h-4 w-4" />
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
-        </motion.section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

@@ -1,10 +1,11 @@
-import { Github, Linkedin, Facebook, Mail } from "lucide-react";
+import Link from "next/link";
+import { Github, Linkedin, Facebook, Mail, ArrowUpRight } from "lucide-react";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
   const socials = [
     {
-      name: "Github",
+      name: "GitHub",
       icon: Github,
       url: "https://github.com/Rappykyun",
     },
@@ -26,34 +27,51 @@ export function Footer() {
   ];
 
   return (
-    <footer className="mt-20 border-t border-zinc-200 dark:border-zinc-800">
-      <div className="max-w-7xl mx-auto px-6 py-8 md:py-12">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col items-center md:items-start gap-2">
-            <p className="text-zinc-600 dark:text-zinc-400 text-sm">
-              © {currentYear} Ralph Vincent Rodriguez. All rights reserved.
+    <footer className="mt-auto border-t border-zinc-200/80 bg-surface/40 transition-colors dark:border-zinc-800/80 dark:bg-surface/40">
+      <div className="site-container py-12">
+        <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
+          <div className="max-w-md space-y-2">
+            <p className="font-display text-base font-medium text-foreground">
+              Ralph Vincent Rodriguez
             </p>
-            <p className="text-zinc-500 dark:text-zinc-500 text-sm">
-              Built with Next.js + TypeScript + Tailwind
+            <p className="text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+              Available for freelance engineering, fullstack application development, and technical
+              consulting.
             </p>
+            <div className="pt-2">
+              <Link
+                href="/contact"
+                className="focus-ring inline-flex items-center gap-1 font-mono text-xs font-semibold uppercase tracking-wider text-signal hover:underline"
+              >
+                Start an inquiry
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </Link>
+            </div>
           </div>
 
-          <div className="flex items-center gap-4">
-            {socials.map((social) => (
-              <a
-                key={social.name}
-                href={social.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-zinc-600 hover:text-green-500 dark:text-zinc-400 dark:hover:text-green-400 transition-colors"
-                aria-label={social.name}
-              >
-                <social.icon className="w-5 h-5" />
-              </a>
-            ))}
+          <div className="flex flex-col gap-4 md:items-end">
+            <div className="flex items-center gap-3">
+              {socials.map((social) => (
+                <a
+                  key={social.name}
+                  href={social.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="focus-ring flex h-10 w-10 items-center justify-center rounded-lg border border-zinc-200/80 text-zinc-600 transition-colors hover:border-signal/50 hover:text-signal dark:border-zinc-800/80 dark:text-zinc-400 dark:hover:border-signal/50 dark:hover:text-signal"
+                  aria-label={social.name}
+                >
+                  <social.icon className="h-4 w-4" />
+                </a>
+              ))}
+            </div>
+            <p className="font-mono text-xs text-zinc-500">
+              © {currentYear} Ralph Vincent Rodriguez.
+            </p>
           </div>
         </div>
       </div>
     </footer>
   );
 }
+
+export default Footer;

@@ -1,29 +1,22 @@
 "use client";
 
-import { useState, useEffect, useLayoutEffect } from "react";
-import { House, FolderKanban, Mail, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Menu, X } from "lucide-react";
 import MoonIcon from "./icons/MoonIcon";
 import SunIcon from "./icons/SunIcon";
 
+const navItems = [
+  { label: "Home", to: "/" },
+  { label: "Projects", to: "/projects" },
+  { label: "Contact", to: "/contact" },
+];
+
 export function Header() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
-  // Sync state with the class set pre-paint by the inline script in layout.tsx.
-  // Intentional one-time DOM read on mount; keeps SSR markup stable (no hydration mismatch).
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setTheme(isDark ? "dark" : "light");
-  }, []);
-
-  useLayoutEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-    localStorage.setItem("theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     const handleResize = () => {
@@ -35,126 +28,122 @@ export function Header() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const toggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
-
-  const navItems = [
-    { icon: House, label: "Home", to: "/" },
-    { icon: FolderKanban, label: "Projects", to: "/projects" },
-    { icon: Mail, label: "Contact", to: "/contact" },
-  ];
-
-  type NavItemProps = {
-    icon: React.ComponentType<{ className?: string }>;
-    label: string;
-    to: string;
-    onClick?: () => void;
-  };
-
-  function NavItem({ icon: Icon, label, to, onClick }: NavItemProps) {
-    const isActive = pathname === to;
-    return (
-      <li className="md:w-auto w-full">
-        <Link
-          href={to}
-          onClick={onClick}
-          className={`
-            w-full md:w-auto text-base md:text-sm flex items-center gap-2 font-incognito font-semibold
-            transition-all duration-200 px-4 py-3 md:py-2 rounded-lg
-            ${
-              isActive
-                ? "text-green-500 bg-green-50 dark:bg-green-950/30 scale-105"
-                : "text-zinc-600 dark:text-zinc-400 hover:text-green-500 dark:hover:text-green-400 hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
-            }
-            md:hover:scale-105 active:scale-95
-          `}
-        >
-          <Icon className="w-5 h-5 transition-colors stroke-current" />
-          <span>{label}</span>
-        </Link>
-      </li>
-    );
-  }
 
   return (
-    <header className="bg-white/80 dark:bg-dark/80 border-zinc-200 dark:border-zinc-800 sticky top-0 z-50 border-b backdrop-blur-sm transition-colors duration-300">
-      <div className="mx-auto flex items-center justify-between gap-4 px-4 py-3 md:p-6 max-w-7xl">
-
-        {/* Mobile menu button */}
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden text-zinc-800 dark:text-zinc-100 hover:bg-zinc-100 dark:hover:bg-zinc-800 relative z-50 p-3 rounded-xl transition-colors"
-          aria-label="Toggle menu"
-          aria-expanded={isOpen}
-          aria-controls="mobile-nav"
+    <header className="sticky top-0 z-40 border-b border-zinc-200/80 bg-surface/85 backdrop-blur-md transition-colors dark:border-zinc-800/80 dark:bg-surface/85">
+      <div className="site-container flex h-16 items-center justify-between gap-4">
+        {/* Monogram Brand */}
+        <Link
+          href="/"
+          className="focus-ring rounded font-mono text-base font-bold tracking-wider text-foreground hover:text-signal"
+          aria-label="Ralph Vincent Rodriguez - Home"
         >
-          <div className="relative w-6 h-6">
-            <div className={`absolute inset-0 transition-all duration-300 ${isOpen ? 'opacity-0 rotate-45' : 'opacity-100 rotate-0'}`}>
-              <Menu size={24} />
-            </div>
-            <div className={`absolute inset-0 transition-all duration-300 ${isOpen ? 'opacity-100 rotate-0' : 'opacity-0 -rotate-45'}`}>
-              <X size={24} />
-            </div>
-          </div>
-        </button>
+          RVR
+        </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden flex-1 justify-center md:flex" aria-label="Main navigation">
-          <ul className="flex items-center justify-center gap-2">
-            {navItems.map((item, index) => (
-              <NavItem
-                key={index}
-                icon={item.icon}
-                label={item.label}
-                to={item.to}
-              />
-            ))}
-          </ul>
+        <nav className="hidden md:flex md:items-center md:gap-1" aria-label="Main navigation">
+          {navItems.map((item) => {
+            const isActive =
+              item.to === "/"
+                ? pathname === "/"
+                : pathname === item.to || pathname.startsWith(`${item.to}/`);
+            return (
+              <Link
+                key={item.to}
+                href={item.to}
+                aria-current={isActive ? "page" : undefined}
+                className={`focus-ring rounded-lg px-3.5 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors ${
+                  isActive
+                    ? "font-semibold text-signal"
+                    : "text-zinc-600 hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+                }`}
+              >
+                {item.label}
+              </Link>
+            );
+          })}
         </nav>
 
-        {/* Theme toggle */}
-        <button
-          onClick={toggleTheme}
-          className="bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 hover:scale-105 active:scale-95 z-50 ml-auto md:ml-0 p-2 rounded-lg transition-all duration-200"
-          aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
-        >
-          <div className="relative w-5 h-5">
-            <div className={`absolute inset-0 transition-all duration-300 ${theme === "light" ? "opacity-100 rotate-0" : "opacity-0 -rotate-90"}`}>
-              <SunIcon />
+        {/* Right side: Theme toggle and mobile menu button */}
+        <div className="flex items-center gap-2">
+          <button
+            onClick={(event) => {
+              const isDark = document.documentElement.classList.toggle("dark");
+              localStorage.setItem("theme", isDark ? "dark" : "light");
+              event.currentTarget.setAttribute(
+                "aria-label",
+                `Switch to ${isDark ? "light" : "dark"} theme`,
+              );
+            }}
+            type="button"
+            className="focus-ring flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200/80 text-zinc-700 transition-colors hover:bg-zinc-100 dark:border-zinc-800/80 dark:text-zinc-300 dark:hover:bg-zinc-800/60"
+            aria-label="Toggle color theme"
+          >
+            <div className="relative h-5 w-5">
+              <div className="absolute inset-0 hidden dark:block">
+                <SunIcon />
+              </div>
+              <div className="absolute inset-0 dark:hidden">
+                <MoonIcon />
+              </div>
             </div>
-            <div className={`absolute inset-0 transition-all duration-300 ${theme === "dark" ? "opacity-100 rotate-0" : "opacity-0 rotate-90"}`}>
-              <MoonIcon />
-            </div>
-          </div>
-        </button>
+          </button>
+
+          {/* Mobile menu trigger */}
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            type="button"
+            className="focus-ring flex h-11 w-11 items-center justify-center rounded-lg border border-zinc-200/80 text-foreground md:hidden transition-colors hover:bg-zinc-100 dark:border-zinc-800/80 dark:hover:bg-zinc-800/60"
+            aria-label="Toggle menu"
+            aria-expanded={isOpen}
+            aria-controls="mobile-nav"
+          >
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Navigation */}
       <div
-        className={`md:hidden ${isOpen ? "border-t border-zinc-200 dark:border-zinc-800" : ""}`}
+        className={`md:hidden ${isOpen ? "border-t border-zinc-200/80 dark:border-zinc-800/80" : ""}`}
       >
         <nav
           id="mobile-nav"
-          className={`overflow-hidden px-4 transition-[max-height,opacity] duration-300 ease-out ${
-            isOpen ? "max-h-60 opacity-100" : "max-h-0 opacity-0 pointer-events-none"
+          className={`site-container overflow-hidden transition-[max-height,opacity] duration-300 ease-out ${
+            isOpen ? "max-h-64 py-3 opacity-100" : "max-h-0 py-0 opacity-0 pointer-events-none"
           }`}
           aria-label="Mobile navigation"
           aria-hidden={!isOpen}
         >
-          <ul className="flex flex-col gap-2 py-4">
-            {navItems.map((item, index) => (
-              <NavItem
-                key={index}
-                icon={item.icon}
-                label={item.label}
-                to={item.to}
-                onClick={() => setIsOpen(false)}
-              />
-            ))}
+          <ul className="flex flex-col gap-1">
+            {navItems.map((item) => {
+              const isActive =
+                item.to === "/"
+                  ? pathname === "/"
+                  : pathname === item.to || pathname.startsWith(`${item.to}/`);
+              return (
+                <li key={item.to}>
+                  <Link
+                    href={item.to}
+                    onClick={() => setIsOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`focus-ring flex h-11 items-center rounded-lg px-3 font-mono text-sm uppercase tracking-wider transition-colors ${
+                      isActive
+                        ? "font-semibold text-signal bg-signal/10"
+                        : "text-zinc-600 hover:text-foreground dark:text-zinc-400 dark:hover:text-foreground"
+                    }`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
           </ul>
         </nav>
       </div>
     </header>
   );
 }
+
+export default Header;

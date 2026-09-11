@@ -1,322 +1,97 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink, Github, Calendar, Users, Code, KeyRound } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  ExternalLink,
+  Github,
+  Calendar,
+  User,
+  Activity,
+  KeyRound,
+} from "lucide-react";
+import { projects, getProject, projectParams } from "@/lib/projects";
+import InquiryBanner from "@/app/_components/InquiryBanner";
 
-const sectionClass =
-  "rounded-2xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-7 dark:border-zinc-800/80 dark:bg-zinc-900/40";
+export function generateStaticParams() {
+  return projectParams;
+}
 
-const projects = {
-  "ched-elibrary": {
-    name: "CHED E-Library System",
-    tagline: "Digital library platform for CHED Regional Office XII",
-    description:
-      "Built during my internship at CHED Regional Office XII (Jun–Jul 2025), this is a full-stack library management and digital resource system serving higher education institutions across the SOCCSKSARGEN region. It handles document cataloguing, user authentication, role-based access, and resource browsing for staff and partner schools.",
-    tags: ["Laravel", "React", "Inertia.js", "Tailwind CSS", "MySQL"],
-    timeline: "Jun – Jul 2025",
-    role: "Fullstack Developer Intern",
-    status: "Demo",
-    live: "https://elibrary.ralphvincent.tech",
-    github: null,
-    demo: {
-      email: "admin@example.com",
-      password: "password",
-    },
-    features: [
-      {
-        title: "Resource Management",
-        points: [
-          "Upload and catalogue policies, publications, and academic materials",
-          "Full-text search and category filtering",
-          "Document preview and download",
-        ],
-      },
-      {
-        title: "Access Control",
-        points: [
-          "Role-based permissions for admins, staff, and public users",
-          "Secure authentication with session management",
-          "Restricted content for partner institutions",
-        ],
-      },
-      {
-        title: "Admin Dashboard",
-        points: [
-          "Manage users, documents, and categories",
-          "Track resource access and download statistics",
-          "Bulk upload and metadata editing",
-        ],
-      },
-    ],
-    tech: [
-      { label: "Backend", value: "Laravel 11" },
-      { label: "Frontend", value: "React + Inertia.js" },
-      { label: "Styling", value: "Tailwind CSS v4" },
-      { label: "Database", value: "MySQL" },
-      { label: "Auth", value: "Laravel Breeze" },
-      { label: "File Storage", value: "Azure Blob Storage" },
-      { label: "Deployment", value: "VPS / Nginx" },
-    ],
-  },
-  "global-gradient-code": {
-    name: "Global Gradient Code — Food Price Forecasting",
-    tagline: "XGBoost-based ML system predicting monthly food prices in Sultan Kudarat",
-    description:
-      "My undergraduate thesis project — a machine learning forecasting system that predicts next-month prices for 19 basic commodities (rice, fish, pork, vegetables) in Sultan Kudarat, Philippines. Combines XGBoost regression with hybrid correction, using satellite-derived climate data (CHIRPS rainfall, MODIS NDVI) and engineered price features. Built during my thesis research under faculty supervision, evaluated via rolling-origin backtesting against a naive baseline.",
-    tags: ["Python", "XGBoost", "FastAPI", "React", "TypeScript", "Machine Learning"],
-    timeline: "Feb – Mar 2026",
-    role: "Thesis Author / Fullstack Developer",
-    status: "Thesis Defense",
-    live: null,
-    github: "https://github.com/Rappykyun/global_gradient_code",
-    demo: null,
-    features: [
-      {
-        title: "ML Forecasting Engine",
-        points: [
-          "XGBoost regression with 15 engineered features (momentum, volatility, mean reversion)",
-          "Hybrid correction formula with 0.1 shrinkage factor for conservative predictions",
-          "Rolling-origin backtesting evaluation against naive baseline",
-          "Covers 19 commodities across 784 monthly observations (May 2020 – Dec 2025)",
-        ],
-      },
-      {
-        title: "Climate Data Integration",
-        points: [
-          "Satellite rainfall data from CHIRPS dataset",
-          "Vegetation index (NDVI) from MODIS satellite imagery",
-          "Climate anomaly and change detection features",
-          "Cyclical encoding for seasonal patterns",
-        ],
-      },
-      {
-        title: "Fullstack Dashboard",
-        points: [
-          "React + TypeScript frontend with chart visualizations",
-          "FastAPI backend with Python ML inference",
-          "Historical price charts and forecast comparisons",
-          "Commodity-wise prediction breakdowns",
-        ],
-      },
-    ],
-    tech: [
-      { label: "ML Framework", value: "XGBoost / Python" },
-      { label: "Backend", value: "FastAPI" },
-      { label: "Frontend", value: "React + TypeScript" },
-      { label: "Data Sources", value: "CHIRPS, MODIS, DA Market Price Survey" },
-      { label: "Evaluation", value: "Rolling-Origin Backtesting" },
-      { label: "Deployment", value: "Local / VPS" },
-    ],
-  },
-  farmstock: {
-    name: "Farmstock — Agricultural Inventory & Order System",
-    tagline: "Laravel + React inventory management platform for agricultural products",
-    description:
-      "A freelance capstone project — fullstack inventory and order management system for agricultural businesses. Handles product cataloguing, stock tracking, order requests with multi-item support, status workflows, and activity logging. Built with Laravel 13, React, Inertia.js, and MySQL, featuring role-based permissions, audit trails, and PDF report generation for orders and inventory logs.",
-    tags: ["Laravel", "React", "Inertia.js", "MySQL", "Tailwind CSS", "PHP"],
-    timeline: "Apr – May 2026",
-    role: "Fullstack Developer (Freelance)",
-    status: "Deployed",
-    live: "https://farmstock.ralphvincent.tech",
-    github: "https://github.com/Rappykyun/farmstock",
-    demo: {
-      email: "admin@farmstock.test",
-      password: "password",
-    },
-    features: [
-      {
-        title: "Inventory Management",
-        points: [
-          "Product catalog with categories, units, and multi-image support",
-          "Real-time stock level tracking and low-stock alerts",
-          "Inventory logging with reason tracking",
-          "Bulk operations and CSV import/export",
-        ],
-      },
-      {
-        title: "Order Processing",
-        points: [
-          "Multi-item order requests with quantity management",
-          "Status workflow: pending → approved → fulfilled → cancelled",
-          "PDF generation for order confirmations",
-          "Order history and search filtering",
-        ],
-      },
-      {
-        title: "Access Control & Audit",
-        points: [
-          "Role-based permissions (admin, staff, viewer)",
-          "Activity logging via Spatie ActivityLog",
-          "User management with granular access control",
-          "Secure authentication with Laravel Fortify",
-        ],
-      },
-    ],
-    tech: [
-      { label: "Backend", value: "Laravel 13" },
-      { label: "Frontend", value: "React + Inertia.js" },
-      { label: "Styling", value: "Tailwind CSS v4" },
-      { label: "Database", value: "MySQL" },
-      { label: "Permissions", value: "Spatie Laravel Permission" },
-      { label: "PDF", value: "DomPDF" },
-      { label: "Deployment", value: "VPS / Nginx" },
-    ],
-  },
-  tritrack: {
-    name: "TriTrack — Tricycle Booking & Dispatch Platform",
-    tagline: "Real-time tricycle booking system with driver app, passenger app, and admin web dashboard",
-    description:
-      "A freelance capstone project — a complete ride-hailing platform for tricycle operators. Includes a Next.js web dashboard for admins, and two Expo React Native mobile apps (driver and passenger). Features real-time ride requests, driver approval workflows, trip tracking with map integration, fare calculation, and role-based authentication. Built with Supabase for backend, Expo Location for GPS tracking, and push notifications for ride updates.",
-    tags: ["Next.js", "React Native", "Expo", "Supabase", "TypeScript", "Maps"],
-    timeline: "Apr 2026",
-    role: "Fullstack Developer (Freelance)",
-    status: "Demo",
-    live: "https://tritrack.ralphvincent.tech",
-    github: "https://github.com/Rappykyun/web",
-    demo: {
-      email: "admin@tritrack.test",
-      password: "password",
-    },
-    features: [
-      {
-        title: "Admin Web Dashboard",
-        points: [
-          "Real-time trip monitoring with status filters",
-          "Driver management with approval workflows",
-          "Passenger and trip history views",
-          "Stats cards: total trips, active drivers, revenue",
-        ],
-      },
-      {
-        title: "Driver Mobile App",
-        points: [
-          "Trip acceptance and rejection workflows",
-          "GPS location tracking with MapLibre integration",
-          "Fare calculation based on distance/route area",
-          "Push notifications for new ride requests",
-        ],
-      },
-      {
-        title: "Passenger Mobile App",
-        points: [
-          "Ride request with pickup/destination input",
-          "Real-time driver matching and ETA",
-          "Trip history and fare receipts",
-          "In-app notifications for trip status updates",
-        ],
-      },
-    ],
-    tech: [
-      { label: "Web Frontend", value: "Next.js 16 + TypeScript" },
-      { label: "Mobile Apps", value: "Expo SDK 54 + React Native" },
-      { label: "Backend", value: "Supabase (PostgreSQL, Auth, Realtime)" },
-      { label: "Maps", value: "MapLibre React Native + Leaflet" },
-      { label: "Styling", value: "Tailwind CSS v4" },
-      { label: "Notifications", value: "Expo Notifications" },
-      { label: "Deployment", value: "Vercel (Web) / EAS Build (Mobile)" },
-    ],
-  },
-  "access-guard": {
-    name: "Access Guard — IoT Access Control System",
-    tagline: "ESP32-based smart lock with keypad, RFID, GSM, and SD card user management",
-    description:
-      "A freelance capstone project — an embedded IoT access control system built on ESP32. Supports multi-factor authentication via 4x4 keypad (PIN/OTP), RFID cards, and GSM SMS commands. Features servo motor locking with auto-relock, emergency override switch, LCD status display, SD card user database, and RTC timestamp logging. Designed for small offices, storage rooms, and restricted areas requiring offline-capable access control.",
-    tags: ["ESP32", "C++", "PlatformIO", "IoT", "Embedded Systems", "GSM"],
-    timeline: "Jun 2026",
-    role: "Embedded Systems Developer (Freelance)",
-    status: "Prototype",
-    live: null,
-    github: "https://github.com/Rappykyun/access_guard",
-    demo: null,
-    features: [
-      {
-        title: "Multi-Factor Authentication",
-        points: [
-          "4x4 matrix keypad with PIN and OTP entry modes",
-          "RFID card reader support (MFRC522)",
-          "GSM A7670E module for SMS-based OTP and remote unlock",
-          "User roles: admin, staff, guest with different access levels",
-        ],
-      },
-      {
-        title: "Locking Mechanism",
-        points: [
-          "Servo motor lock with 0° (locked) / 90° (unlocked) positions",
-          "Auto-relock after 10 seconds",
-          "Emergency physical override switch",
-          "Reed switch for door-open detection",
-        ],
-      },
-      {
-        title: "User Management & Logging",
-        points: [
-          "SD card CSV database: id, name, role, PIN, phone, enabled",
-          "RTC timestamp logging for all access attempts",
-          "LCD 20x4 display for status messages and prompts",
-          "Buzzer and LED indicators for access feedback",
-        ],
-      },
-    ],
-    tech: [
-      { label: "Microcontroller", value: "ESP32 (Arduino Framework)" },
-      { label: "IDE", value: "PlatformIO" },
-      { label: "Language", value: "C++" },
-      { label: "Communication", value: "GSM A7670E (SMS)" },
-      { label: "Peripherals", value: "LCD I2C, Keypad, RFID, Servo, SD, RTC" },
-      { label: "Power", value: "5V DC + Backup Battery" },
-    ],
-  },
-};
-
-export default async function ProjectPage({
+export default async function ProjectDetailPage({
   params,
 }: {
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  const project = projects[projectId as keyof typeof projects];
+  const project = getProject(projectId);
 
-  if (!project) notFound();
+  if (!project) {
+    notFound();
+  }
+
+  const currentIndex = projects.findIndex((p) => p.slug === project.slug);
+  const prevProject =
+    projects[(currentIndex - 1 + projects.length) % projects.length];
+  const nextProject = projects[(currentIndex + 1) % projects.length];
 
   return (
-    <main className="max-w-5xl mx-auto md:px-12 px-5 lg:mt-12 mt-8 mb-16">
-      <div className="flex flex-col gap-5 sm:gap-6">
-        {/* Back link */}
-        <Link
-          href="/projects"
-          className="inline-flex items-center gap-2 text-sm text-zinc-500 transition-colors hover:text-green-600 dark:text-zinc-400 dark:hover:text-green-400 w-fit"
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Projects
-        </Link>
+    <main>
+      {/* Header & Metadata */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <Link
+            href="/projects"
+            className="focus-ring mb-8 inline-flex items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-zinc-500 hover:text-signal transition-colors"
+          >
+            <ArrowLeft className="h-3.5 w-3.5" />
+            Back to all projects
+          </Link>
 
-        {/* Header card */}
-        <section className={sectionClass}>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-wrap items-center gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-400/30 bg-amber-50/80 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:border-amber-400/20 dark:bg-amber-950/40 dark:text-amber-300">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-400" />
-                  {project.status}
-                </span>
-              </div>
-              <h1 className="font-incognito text-3xl font-semibold tracking-tight sm:text-4xl">
-                {project.name}
-              </h1>
-              <p className="text-base text-zinc-500 dark:text-zinc-400 sm:text-lg">
-                {project.tagline}
-              </p>
+          <div className="max-w-3xl">
+            <div className="flex flex-wrap items-center gap-3">
+              <span className="rounded-full border border-signal/30 bg-signal/10 px-3 py-1 font-mono text-xs font-semibold uppercase tracking-wider text-signal">
+                {project.category}
+              </span>
+              <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                Status: {project.status}
+              </span>
             </div>
 
-            <div className="flex shrink-0 flex-wrap gap-2">
+            <h1 className="mt-4 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              {project.name}
+            </h1>
+
+            <p className="mt-3 text-lg leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-xl">
+              {project.tagline}
+            </p>
+
+            {/* Quick Metadata Rail */}
+            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-b border-zinc-200/80 py-4 font-mono text-xs sm:grid-cols-3 dark:border-zinc-800/80">
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                <User className="h-4 w-4 text-signal shrink-0" />
+                <span className="truncate">{project.role}</span>
+              </div>
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400">
+                <Calendar className="h-4 w-4 text-signal shrink-0" />
+                <span>{project.timeline}</span>
+              </div>
+              <div className="flex items-center gap-2 text-zinc-600 dark:text-zinc-400 col-span-2 sm:col-span-1">
+                <Activity className="h-4 w-4 text-signal shrink-0" />
+                <span>{project.status} Phase</span>
+              </div>
+            </div>
+
+            {/* Live / Source Actions */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               {project.live && (
                 <a
                   href={project.live}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-green-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-green-500/60"
+                  className="focus-ring inline-flex h-11 items-center gap-2 rounded-lg bg-signal px-6 font-mono text-xs font-semibold uppercase tracking-wider text-white shadow-sm transition-colors hover:bg-signal-bright hover:text-ink"
                 >
+                  Live platform demo
                   <ExternalLink className="h-4 w-4" />
-                  Live Site
                 </a>
               )}
               {project.github && (
@@ -324,118 +99,161 @@ export default async function ProjectPage({
                   href={project.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-lg border border-zinc-300 bg-white/80 px-4 py-2 text-sm font-semibold text-zinc-700 transition-colors hover:border-zinc-400 dark:border-zinc-700 dark:bg-zinc-900/40 dark:text-zinc-200"
+                  className="focus-ring inline-flex h-11 items-center gap-2 rounded-lg border border-zinc-200/80 bg-surface px-5 font-mono text-xs font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-signal hover:text-signal dark:border-zinc-800/80 dark:bg-surface"
                 >
                   <Github className="h-4 w-4" />
-                  Code
+                  View source code
                 </a>
               )}
             </div>
           </div>
+        </div>
+      </section>
 
-          {/* Meta row */}
-          <div className="mt-5 grid grid-cols-2 gap-3 border-t border-zinc-200/70 pt-5 sm:grid-cols-3 dark:border-zinc-800/80">
-            <div className="flex items-center gap-2.5">
-              <Calendar className="h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
-              <div>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">Timeline</p>
-                <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{project.timeline}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <Users className="h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
-              <div>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">Role</p>
-                <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{project.role}</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <Code className="h-4 w-4 shrink-0 text-green-600 dark:text-green-400" />
-              <div>
-                <p className="text-xs text-zinc-400 dark:text-zinc-500">Status</p>
-                <p className="text-sm font-medium text-zinc-800 dark:text-zinc-200">{project.status}</p>
-              </div>
-            </div>
+      {/* Case Study Body: About */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <div className="max-w-3xl">
+            <p className="eyebrow">Overview</p>
+            <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+              About the project
+            </h2>
+            <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg">
+              {project.description}
+            </p>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* About */}
-        <section className={sectionClass}>
-          <h2 className="font-incognito text-xl font-bold sm:text-2xl">About</h2>
-          <p className="mt-3 text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
-            {project.description}
-          </p>
-        </section>
+      {/* Core Features */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <p className="eyebrow">Deliverables</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Key functional features
+          </h2>
 
-        {/* Tech stack */}
-        <section className={sectionClass}>
-          <h2 className="font-incognito text-xl font-bold sm:text-2xl">Tech Stack</h2>
-          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-            {project.tech.map((item) => (
-              <div
-                key={item.label}
-                className="rounded-xl border border-zinc-200/70 bg-zinc-50/80 px-4 py-3 dark:border-zinc-800/80 dark:bg-zinc-900/30"
-              >
-                <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500">{item.label}</p>
-                <p className="mt-0.5 text-sm font-semibold text-zinc-800 dark:text-zinc-200">{item.value}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Features */}
-        <section className={sectionClass}>
-          <h2 className="font-incognito text-xl font-bold sm:text-2xl">Features</h2>
-          <div className="mt-4 grid gap-4 sm:grid-cols-3">
+          <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
             {project.features.map((feature) => (
               <div
                 key={feature.title}
-                className="rounded-xl border border-zinc-200/70 bg-zinc-50/80 p-4 dark:border-zinc-800/80 dark:bg-zinc-900/30"
+                className="flex flex-col justify-between rounded-2xl border border-zinc-200/80 bg-surface p-6 shadow-sm dark:border-zinc-800/80 dark:bg-surface"
               >
-                <h3 className="text-sm font-semibold text-zinc-800 dark:text-zinc-100">{feature.title}</h3>
-                <ul className="mt-2 flex flex-col gap-1.5">
-                  {feature.points.map((point) => (
-                    <li key={point} className="flex items-start gap-2 text-sm text-zinc-500 dark:text-zinc-400">
-                      <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-green-500" />
-                      {point}
-                    </li>
-                  ))}
-                </ul>
+                <div>
+                  <h3 className="font-display text-lg font-medium text-foreground">
+                    {feature.title}
+                  </h3>
+                  <ul className="mt-4 space-y-2.5">
+                    {feature.points.map((point) => (
+                      <li
+                        key={point}
+                        className="flex items-start gap-2 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400"
+                      >
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
+                        <span>{point}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             ))}
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Demo credentials */}
-        {project.demo && (
-          <section className={sectionClass}>
-            <div className="flex items-center gap-2 mb-4">
-              <KeyRound className="h-4 w-4 text-green-600 dark:text-green-400" />
-              <h2 className="font-incognito text-xl font-bold sm:text-2xl">Try it out</h2>
-            </div>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400 mb-4">
-              Use these credentials to log in and explore the admin dashboard.
-            </p>
-            <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-              <div className="rounded-xl border border-zinc-200/70 bg-zinc-50/80 px-4 py-3 dark:border-zinc-800/80 dark:bg-zinc-900/30">
-                <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500">Email</p>
-                <p className="mt-0.5 font-mono text-sm font-semibold text-zinc-800 dark:text-zinc-200 select-all">
-                  {project.demo.email}
+      {/* Technical Architecture & Stack */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <p className="eyebrow">Implementation</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Technical stack & architecture
+          </h2>
+
+          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+            {project.tech.map((item) => (
+              <div
+                key={item.label}
+                className="rounded-xl border border-zinc-200/80 bg-surface p-4 shadow-sm dark:border-zinc-800/80 dark:bg-surface"
+              >
+                <p className="font-mono text-xs text-zinc-500">{item.label}</p>
+                <p className="mt-1 font-mono text-sm font-semibold text-foreground">
+                  {item.value}
                 </p>
               </div>
-              <div className="rounded-xl border border-zinc-200/70 bg-zinc-50/80 px-4 py-3 dark:border-zinc-800/80 dark:bg-zinc-900/30">
-                <p className="text-xs font-medium text-zinc-400 dark:text-zinc-500">Password</p>
-                <p className="mt-0.5 font-mono text-sm font-semibold text-zinc-800 dark:text-zinc-200 select-all">
-                  {project.demo.password}
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Demo Credentials when present */}
+      {project.demo && (
+        <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+          <div className="site-container">
+            <div className="max-w-xl rounded-2xl border border-signal/40 bg-surface p-6 shadow-sm dark:border-signal/30 dark:bg-surface">
+              <div className="flex items-center gap-2 text-signal">
+                <KeyRound className="h-5 w-5" />
+                <h3 className="font-display text-lg font-medium text-foreground">
+                  Test credentials
+                </h3>
+              </div>
+              <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                You can use these credentials to access and evaluate the demo platform:
+              </p>
+              <div className="mt-4 space-y-2 font-mono text-xs">
+                <p className="flex items-center gap-2">
+                  <span className="text-zinc-500">Email:</span>
+                  <code className="rounded bg-zinc-100 px-2 py-1 text-foreground dark:bg-zinc-800">
+                    {project.demo.email}
+                  </code>
+                </p>
+                <p className="flex items-center gap-2">
+                  <span className="text-zinc-500">Password:</span>
+                  <code className="rounded bg-zinc-100 px-2 py-1 text-foreground dark:bg-zinc-800">
+                    {project.demo.password}
+                  </code>
                 </p>
               </div>
             </div>
-            <p className="mt-3 text-xs text-zinc-400 dark:text-zinc-500">
-              Source code is private — built for a government office during internship.
-            </p>
-          </section>
-        )}
-      </div>
+          </div>
+        </section>
+      )}
+
+      {/* Previous / Next Case Study Navigation */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <div className="flex flex-col sm:flex-row items-stretch justify-between gap-4">
+            <Link
+              href={`/projects/${prevProject.slug}`}
+              className="focus-ring group flex flex-1 flex-col rounded-xl border border-zinc-200/80 bg-surface p-4 transition-colors hover:border-signal/50 dark:border-zinc-800/80 dark:bg-surface"
+              aria-label={`Previous project: ${prevProject.name}`}
+            >
+              <span className="flex items-center gap-1.5 font-mono text-xs text-zinc-500 group-hover:text-signal">
+                <ArrowLeft className="h-3.5 w-3.5" />
+                Previous project
+              </span>
+              <span className="mt-2 font-display text-base font-medium text-foreground group-hover:text-signal">
+                {prevProject.name}
+              </span>
+            </Link>
+
+            <Link
+              href={`/projects/${nextProject.slug}`}
+              className="focus-ring group flex flex-1 flex-col items-end rounded-xl border border-zinc-200/80 bg-surface p-4 text-right transition-colors hover:border-signal/50 dark:border-zinc-800/80 dark:bg-surface"
+              aria-label={`Next project: ${nextProject.name}`}
+            >
+              <span className="flex items-center gap-1.5 font-mono text-xs text-zinc-500 group-hover:text-signal">
+                Next project
+                <ArrowRight className="h-3.5 w-3.5" />
+              </span>
+              <span className="mt-2 font-display text-base font-medium text-foreground group-hover:text-signal">
+                {nextProject.name}
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <InquiryBanner />
     </main>
   );
 }

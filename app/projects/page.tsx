@@ -1,119 +1,119 @@
-import {
-  BookOpen,
-  BrainCircuit,
-  ExternalLink,
-  Navigation,
-  Shield,
-  Sprout,
-} from "lucide-react";
 import Link from "next/link";
+import {
+  Globe,
+  Smartphone,
+  BrainCircuit,
+  Cpu,
+  ArrowUpRight,
+} from "lucide-react";
+import { projects, type ProjectCategory } from "@/lib/projects";
+import FadeContent from "@/app/_components/FadeContent/FadeContent";
+import InquiryBanner from "@/app/_components/InquiryBanner";
 
-const sectionClass =
-  "rounded-2xl border border-zinc-200/70 bg-white/80 p-5 shadow-sm backdrop-blur-sm sm:rounded-3xl sm:p-7 dark:border-zinc-800/80 dark:bg-zinc-900/40";
+function getCategoryIcon(category: ProjectCategory) {
+  switch (category) {
+    case "Web":
+      return Globe;
+    case "Mobile":
+      return Smartphone;
+    case "Data/ML":
+      return BrainCircuit;
+    case "IoT":
+      return Cpu;
+  }
+}
 
-const projects = [
-  {
-    icon: BookOpen,
-    name: "CHED E-Library System",
-    description:
-      "Digital library platform for CHED Regional Office XII serving higher education institutions across SOCCSKSARGEN.",
-    slug: "ched-elibrary",
-    tags: ["Laravel", "React", "Inertia.js", "Tailwind CSS", "MySQL"],
-    live: "https://elibrary.ralphvincent.tech",
-  },
-  {
-    icon: BrainCircuit,
-    name: "Global Gradient Code — Food Price Forecasting",
-    description:
-      "XGBoost-based ML system predicting monthly food prices for 19 commodities in Sultan Kudarat using satellite climate data.",
-    slug: "global-gradient-code",
-    tags: ["Python", "XGBoost", "FastAPI", "React", "TypeScript", "Machine Learning"],
-    live: null,
-  },
-  {
-    icon: Sprout,
-    name: "Farmstock — Agricultural Inventory & Order System",
-    description:
-      "Fullstack inventory and order management platform for agricultural businesses with role-based access and PDF reporting.",
-    slug: "farmstock",
-    tags: ["Laravel", "React", "Inertia.js", "MySQL", "Tailwind CSS", "PHP"],
-    live: "https://farmstock.ralphvincent.tech",
-  },
-  {
-    icon: Navigation,
-    name: "TriTrack — Tricycle Booking & Dispatch Platform",
-    description:
-      "Real-time tricycle ride-hailing platform with driver and passenger mobile apps plus an admin web dashboard.",
-    slug: "tritrack",
-    tags: ["Next.js", "React Native", "Expo", "Supabase", "TypeScript", "Maps"],
-    live: "https://tritrack.ralphvincent.tech",
-  },
-  {
-    icon: Shield,
-    name: "Access Guard — IoT Access Control System",
-    description:
-      "ESP32-based smart lock with keypad, RFID, GSM SMS, and SD card user management for restricted-area access control.",
-    slug: "access-guard",
-    tags: ["ESP32", "C++", "PlatformIO", "IoT", "Embedded Systems", "GSM"],
-    live: null,
-  },
-];
-
-export default function Projects() {
+export default function ProjectsPage() {
   return (
-    <main className="max-w-5xl mx-auto md:px-12 px-5 lg:mt-12 mt-8">
-      <div className="flex flex-col gap-5 sm:gap-6">
-        <section className={sectionClass}>
-          <h1 className="font-incognito text-3xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
-            Projects
-          </h1>
-          <p className="mt-3 text-base text-zinc-600 dark:text-zinc-400 sm:text-lg">
-            Things I&apos;ve built as a graduating CS student and freelance developer.
-          </p>
-        </section>
+    <main>
+      {/* Header */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <div className="max-w-2xl">
+            <p className="eyebrow">Case Studies & Deliverables</p>
+            <h1 className="mt-2 font-display text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+              Engineered software with verified outcomes
+            </h1>
+            <p className="mt-4 text-base leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-lg">
+              Explore documented systems delivered across four core technical domains: web platforms,
+              mobile dispatch applications, machine learning forecasting engines, and embedded IoT
+              security controls.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <section className={sectionClass}>
-          <p className="text-xl sm:text-2xl font-bold pb-4 font-incognito">
-            All Projects
-          </p>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {projects.map((project) => (
-              <Link
-                key={project.slug}
-                href={`/projects/${project.slug}`}
-                className="group flex flex-col gap-3 rounded-xl border border-zinc-200/70 bg-white/60 p-4 transition-all duration-200 hover:border-green-500/40 hover:shadow-sm dark:border-zinc-800/80 dark:bg-zinc-900/30 dark:hover:border-green-500/30"
-              >
-                <div className="flex items-start gap-3">
-                  <div className="rounded-lg border border-zinc-200/70 bg-zinc-100/80 p-2.5 dark:border-zinc-700/60 dark:bg-zinc-800/60">
-                    <project.icon className="h-5 w-5 text-green-600 dark:text-green-400" />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center justify-between gap-2">
-                      <h2 className="font-incognito text-base font-semibold text-zinc-900 dark:text-zinc-100">
+      {/* Grid */}
+      <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+        <div className="site-container">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {projects.map((project, index) => {
+              const Icon = getCategoryIcon(project.category);
+              return (
+                <FadeContent
+                  key={project.slug}
+                  delay={index * 80}
+                  duration={500}
+                  threshold={0.1}
+                >
+                  <Link
+                    href={`/projects/${project.slug}`}
+                    className="focus-ring group flex h-full flex-col justify-between rounded-2xl border border-zinc-200/80 bg-surface p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-signal/50 hover:shadow-md dark:border-zinc-800/80 dark:bg-surface"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="flex items-center gap-2">
+                          <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-zinc-200/80 bg-background text-signal dark:border-zinc-800/80">
+                            <Icon className="h-4 w-4" />
+                          </div>
+                          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-signal">
+                            {project.category}
+                          </span>
+                        </div>
+                        <span className="font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                          {project.status}
+                        </span>
+                      </div>
+
+                      <h2 className="mt-4 font-display text-xl font-medium tracking-tight text-foreground transition-colors group-hover:text-signal">
                         {project.name}
                       </h2>
-                      <ExternalLink className="h-3.5 w-3.5 shrink-0 text-zinc-400 opacity-0 transition-opacity group-hover:opacity-100 dark:text-zinc-500" />
+
+                      <p className="mt-1 font-mono text-xs text-zinc-500">
+                        {project.role}
+                      </p>
+
+                      <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 line-clamp-3">
+                        {project.summary}
+                      </p>
                     </div>
-                    <p className="mt-0.5 text-sm text-zinc-500 dark:text-zinc-400">
-                      {project.description}
-                    </p>
-                  </div>
-                </div>
-                <div className="flex flex-wrap gap-1.5">
-                  {project.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full border border-zinc-200/70 bg-zinc-100/80 px-2.5 py-0.5 text-xs font-medium text-zinc-600 dark:border-zinc-700/60 dark:bg-zinc-800/60 dark:text-zinc-400"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </Link>
-            ))}
+
+                    <div className="mt-6 pt-4 border-t border-zinc-100 dark:border-zinc-800/60">
+                      <div className="flex flex-wrap gap-1.5">
+                        {project.tags.slice(0, 3).map((tag) => (
+                          <span
+                            key={tag}
+                            className="rounded bg-zinc-100 px-2 py-0.5 font-mono text-[11px] text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+
+                      <div className="mt-4 flex items-center justify-between text-xs font-mono font-medium text-foreground group-hover:text-signal">
+                        <span>View case study</span>
+                        <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                      </div>
+                    </div>
+                  </Link>
+                </FadeContent>
+              );
+            })}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <InquiryBanner />
     </main>
   );
 }

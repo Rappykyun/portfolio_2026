@@ -1,77 +1,69 @@
 import { Award, ExternalLink } from "lucide-react";
 
-type Certificate = {
-  title: string;
-  issuer: string;
-  issued: string;
-  expires?: string;
-  summary: string;
-  credentialUrl: string;
-};
-
-const certificates: Certificate[] = [
-  {
+export function Certificates() {
+  const certificate = {
     title: "Data Engineer Associate",
     issuer: "DataCamp",
     issued: "27 March 2026",
     expires: "26 March 2028",
-    summary: "Certified in associate-level data engineering skills, including data workflows, data management, and analytics-ready pipelines.",
+    summary:
+      "Certified in associate-level data engineering skills, including data workflows, data management, and analytics-ready pipelines.",
     credentialUrl: "https://www.datacamp.com/certificate/DEA0018866705032",
-  },
-];
-
-type CertificatesProps = {
-  compact?: boolean;
-};
-
-export function Certificates({ compact = false }: CertificatesProps) {
-  const sectionClassName = compact ? "py-0" : "py-12 md:py-16 lg:py-24";
-  const containerClassName = compact ? "w-full" : "mx-auto max-w-3xl px-4 sm:px-6 lg:px-8";
+  };
 
   return (
-    <section className={sectionClassName}>
-      <p className="pb-3 font-incognito text-xl font-bold sm:text-2xl lg:text-3xl">
-        Certificates
-      </p>
-      <div className={containerClassName}>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {certificates.map((certificate) => (
-            <article
-              key={`${certificate.title}-${certificate.issued}`}
-              className="group flex h-full flex-col rounded-xl border border-zinc-200/80 bg-white/60 p-4 transition-colors hover:border-zinc-300 hover:bg-white/90 dark:border-zinc-800/80 dark:bg-zinc-950/30 dark:hover:border-zinc-700 dark:hover:bg-zinc-950/50"
-            >
-              <div className="mb-4 flex items-start justify-between gap-3">
-                <div className="flex size-10 shrink-0 items-center justify-center rounded-lg border bg-background text-foreground shadow-sm">
-                  <Award className="size-5" aria-hidden="true" />
+    <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+      <div className="site-container">
+        <div className="max-w-xl">
+          <p className="eyebrow">Credentials</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Verified certification
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-base">
+            Professional verification in modern data engineering and pipeline workflows.
+          </p>
+        </div>
+
+        <div className="mt-8">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6 rounded-2xl border border-zinc-200/80 bg-surface p-6 shadow-sm dark:border-zinc-800/80 dark:bg-surface">
+            <div className="flex items-start gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-zinc-200/80 bg-background text-signal shadow-sm dark:border-zinc-800/80">
+                <Award className="h-6 w-6" aria-hidden="true" />
+              </div>
+              <div>
+                <div className="flex flex-wrap items-baseline gap-2">
+                  <h3 className="font-display text-lg font-medium text-foreground">
+                    {certificate.title}
+                  </h3>
+                  <span className="font-mono text-xs text-signal">
+                    {certificate.issuer}
+                  </span>
                 </div>
-                <span className="rounded-full border border-zinc-200 px-2.5 py-1 font-mono text-[11px] text-muted-foreground dark:border-zinc-800">
-                  {certificate.issued}
-                </span>
-              </div>
-
-              <div className="flex flex-1 flex-col gap-2">
-                <h3 className="text-base font-semibold leading-snug sm:text-lg">{certificate.title}</h3>
-                <p className="font-mono text-xs text-muted-foreground">{certificate.issuer}</p>
-                <p className="font-mono text-xs text-muted-foreground">
-                  Issued {certificate.issued}
-                  {certificate.expires ? ` · Expires ${certificate.expires}` : ""}
+                <p className="mt-1 font-mono text-xs text-zinc-500 dark:text-zinc-400">
+                  Issued {certificate.issued} · Valid until {certificate.expires}
                 </p>
-                <p className="text-sm leading-relaxed text-muted-foreground">{certificate.summary}</p>
+                <p className="mt-2 max-w-xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                  {certificate.summary}
+                </p>
               </div>
+            </div>
 
+            <div className="shrink-0 sm:self-center">
               <a
                 href={certificate.credentialUrl}
                 target="_blank"
-                rel="noreferrer"
-                className="mt-4 inline-flex w-fit items-center gap-2 rounded-md border border-zinc-200 px-3 py-2 text-xs font-medium transition-colors hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 dark:border-zinc-800 dark:hover:bg-zinc-900"
+                rel="noopener noreferrer"
+                className="focus-ring inline-flex h-10 items-center gap-2 rounded-lg border border-zinc-200/80 bg-background px-4 font-mono text-xs font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-signal hover:text-signal dark:border-zinc-800/80"
               >
-                View Certificate
-                <ExternalLink className="size-3.5" aria-hidden="true" />
+                Verify credential
+                <ExternalLink className="h-3.5 w-3.5" aria-hidden="true" />
               </a>
-            </article>
-          ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+export default Certificates;

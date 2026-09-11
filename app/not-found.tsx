@@ -1,56 +1,41 @@
-"use client";
-
 import Link from "next/link";
-import { Home, ArrowLeft } from "lucide-react";
-import { motion } from "framer-motion";
+import { ArrowLeft, FolderKanban } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="max-w-7xl mx-auto md:px-16 px-6 lg:mt-32 mt-20 mb-20">
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-center"
-      >
-        <div className="mb-8">
-          <h1 className="font-incognito text-8xl md:text-9xl font-bold text-green-500 mb-4">404</h1>
-          <h2 className="font-incognito text-2xl md:text-3xl font-bold text-zinc-900 dark:text-zinc-100 mb-6">
-            Page Not Found
-          </h2>
-          <p className="text-lg text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto mb-8">
-            Oops! The page you&apos;re looking for doesn&apos;t exist. It might have been moved, deleted,
-            or you entered the wrong URL.
-          </p>
-        </div>
+    <main className="section-space">
+      <div className="site-container flex flex-col items-center justify-center text-center py-20">
+        <span className="font-mono text-xs font-semibold uppercase tracking-wider text-signal">
+          Error 404
+        </span>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        <h1 className="mt-4 font-display text-5xl font-semibold tracking-tight text-foreground sm:text-7xl">
+          Page not found
+        </h1>
+
+        <p className="mt-4 max-w-md text-base leading-relaxed text-zinc-600 dark:text-zinc-400">
+          The requested page or case study could not be located. It may have been moved, renamed,
+          or does not exist.
+        </p>
+
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/"
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors"
+            className="focus-ring inline-flex h-11 items-center gap-2 rounded-lg bg-signal px-6 font-mono text-xs font-semibold uppercase tracking-wider text-white transition-colors hover:bg-signal-bright hover:text-ink"
           >
-            <Home className="w-4 h-4" />
-            Go Home
+            <ArrowLeft className="h-4 w-4" />
+            Return home
           </Link>
 
-          <button
-            onClick={() => window.history.back()}
-            className="flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:bg-zinc-50 dark:hover:bg-zinc-800 font-semibold py-3 px-6 rounded-lg transition-colors"
+          <Link
+            href="/projects"
+            className="focus-ring inline-flex h-11 items-center gap-2 rounded-lg border border-zinc-200/80 bg-surface px-5 font-mono text-xs font-semibold uppercase tracking-wider text-foreground transition-colors hover:border-signal hover:text-signal dark:border-zinc-800/80 dark:bg-surface"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Go Back
-          </button>
+            <FolderKanban className="h-4 w-4" />
+            Browse projects
+          </Link>
         </div>
-
-        {/* Decorative element */}
-        <motion.div
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-          className="mt-16 opacity-20"
-        >
-          <div className="w-32 h-32 mx-auto bg-gradient-to-br from-green-400 to-blue-500 rounded-full blur-xl"></div>
-        </motion.div>
-      </motion.div>
+      </div>
     </main>
   );
 }

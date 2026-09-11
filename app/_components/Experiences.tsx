@@ -1,70 +1,74 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/app/_components/ui/card";
-
 type Step = {
   title: string;
   period: string;
+  role: string;
   description: string;
 };
 
-const steps: Step[] = [
+const steps: readonly Step[] = [
   {
-    title: "Freelance Developer",
+    title: "Freelance Software Developer",
     period: "Aug 2025 – Present",
+    role: "Independent Contractor",
     description:
-      "Build full-stack web applications for clients, including capstone and thesis projects for students.",
+      "Design and deliver full-stack web platforms, mobile dispatch solutions, and thesis engineering systems for clients and academic researchers.",
   },
   {
-    title: "Fullstack Developer Intern — CHED Regional Office XII",
+    title: "Fullstack Developer Intern",
     period: "Jun – Jul 2025",
+    role: "CHED Regional Office XII",
     description:
-      "Built an e-library / library management system using Laravel and React.",
+      "Engineered an e-library digital catalogue and access control system using Laravel, React, Inertia.js, and MySQL for regional educational institutions.",
   },
 ];
 
-type ExperiencesProps = {
-  compact?: boolean;
-};
-
-export function Experiences({ compact = false }: ExperiencesProps) {
-  const sectionClassName = compact ? "py-0" : "py-12 md:py-16 lg:py-24";
-  const containerClassName = compact ? "w-full" : "mx-auto max-w-3xl px-4 sm:px-6 lg:px-8";
-
+export function Experiences() {
   return (
-    <section className={sectionClassName}>
-      <p className="text-xl sm:text-2xl lg:text-3xl font-bold pb-3 font-incognito">Experiences</p>
-      <div className={containerClassName}>
-        <div className="relative">
-          {/* Vertical timeline rail */}
-          <div
-            aria-hidden="true"
-            className="absolute left-4 top-2 h-[calc(100%-1rem)] w-px bg-border"
-          />
+    <section className="section-space border-b border-zinc-200/80 transition-colors dark:border-zinc-800/80">
+      <div className="site-container">
+        <div className="max-w-xl">
+          <p className="eyebrow">Track Record</p>
+          <h2 className="mt-2 font-display text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+            Experience and work history
+          </h2>
+          <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400 sm:text-base">
+            Professional background combining public agency development and independent software delivery.
+          </p>
+        </div>
 
-          <div className="flex flex-col gap-5">
-            {steps.map((step, index) => (
-              <div key={step.title} className="relative flex gap-6">
-                {/* Timeline node */}
-                <div className="relative z-10 flex shrink-0 items-start">
-                  <div className="flex size-8 items-center justify-center rounded-full border bg-background text-sm font-semibold text-foreground shadow-sm">
-                    {index + 1}
-                  </div>
+        <div className="mt-10">
+          <ol className="relative border-l border-zinc-200 dark:border-zinc-800 ml-3 space-y-8">
+            {steps.map((step) => (
+              <li key={step.title} className="relative pl-6">
+                {/* Node dot */}
+                <span
+                  aria-hidden="true"
+                  className="absolute -left-1.5 top-1.5 h-3 w-3 rounded-full border-2 border-background bg-signal ring-2 ring-signal/20"
+                />
+
+                <div className="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+                  <h3 className="font-display text-lg font-medium text-foreground">
+                    {step.title}
+                  </h3>
+                  <time className="font-mono text-xs text-zinc-500 dark:text-zinc-400 shrink-0">
+                    {step.period}
+                  </time>
                 </div>
 
-                {/* Content */}
-                <Card className="flex-1">
-                  <CardHeader className="pb-2">
-                    <CardTitle className="text-base sm:text-lg">{step.title}</CardTitle>
-                    <p className="text-xs font-mono text-muted-foreground">{step.period}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-                  </CardContent>
-                </Card>
-              </div>
+                <p className="mt-0.5 font-mono text-xs text-signal">
+                  {step.role}
+                </p>
+
+                <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                  {step.description}
+                </p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>
   );
 }
+
+export default Experiences;

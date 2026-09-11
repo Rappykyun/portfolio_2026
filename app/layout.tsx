@@ -1,31 +1,41 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Bricolage_Grotesque, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "./_components/Header";
 import { Footer } from "./_components/Footer";
-import ClickSpark from "./_components/ClickSpark";
+import SiteEffects from "./_components/SiteEffects";
 
-const inter = Inter({
+const display = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-bricolage",
   display: "swap",
-  variable: "--font-inter",
 });
 
+const mono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-ibm-plex-mono",
+  display: "swap",
+});
+
+const siteUrl = process.env.SITE_URL ?? "http://localhost:3000";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://your-domain.com"),
-  title:
-    "Ralph Vincent Rodriguez - Computer Science Student & Aspiring Software Engineer",
+  metadataBase: new URL(siteUrl),
+  title: "Ralph Vincent Rodriguez — Fullstack Software Engineer",
   description:
-    "Computer Science student at Sultan Kudarat State University, passionate about software development, web development, and creating innovative solutions. Based in Philippines.",
+    "Portfolio and case studies of Ralph Vincent Rodriguez. Building web applications, mobile platforms, machine learning systems, and IoT solutions.",
   keywords: [
     "Ralph Vincent Rodriguez",
-    "Computer Science Student",
-    "Software Developer",
+    "Software Engineer",
+    "Fullstack Developer",
     "Web Developer",
     "React",
+    "Next.js",
     "TypeScript",
-    "JavaScript",
+    "Python",
+    "Machine Learning",
+    "IoT",
     "Sultan Kudarat State University",
     "Philippines",
   ],
@@ -42,22 +52,18 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   openGraph: {
-    title:
-      "Ralph Vincent Rodriguez - Computer Science Student & Software Engineer",
+    title: "Ralph Vincent Rodriguez — Fullstack Software Engineer",
     description:
-      "Computer Science student passionate about software development and creating innovative solutions. Explore my projects and get in touch!",
+      "Fullstack software engineer building web applications, mobile platforms, data systems, and IoT solutions. Explore verified project case studies.",
     type: "website",
-    url: "https://your-domain.com",
+    url: siteUrl,
     siteName: "Ralph Vincent Rodriguez Portfolio",
-    images: [{ url: "/og-image.png", alt: "Ralph Vincent Rodriguez Portfolio" }],
   },
   twitter: {
-    card: "summary_large_image",
-    title:
-      "Ralph Vincent Rodriguez - Computer Science Student & Software Engineer",
+    card: "summary",
+    title: "Ralph Vincent Rodriguez — Fullstack Software Engineer",
     description:
-      "Computer Science student passionate about software development and creating innovative solutions.",
-    images: ["/og-image.png"],
+      "Fullstack software engineer building web applications, mobile platforms, data systems, and IoT solutions.",
   },
 };
 
@@ -65,10 +71,10 @@ const structuredData = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: "Ralph Vincent Rodriguez",
-  jobTitle: "Computer Science Student",
+  jobTitle: "Fullstack Software Engineer",
   description:
-    "Computer Science student at Sultan Kudarat State University, aspiring software engineer",
-  url: "https://your-domain.com",
+    "Fullstack software engineer building web applications, mobile platforms, data systems, and IoT prototypes.",
+  url: siteUrl,
   email: "ralphvincentrodriguez@sksu.edu.ph",
   address: {
     "@type": "PostalAddress",
@@ -93,7 +99,7 @@ const themeScript = `
     var stored = localStorage.getItem('theme');
     var isDark = stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches);
     document.documentElement.classList.toggle('dark', isDark);
-  } catch (e) {}
+  } catch {}
 })();
 `;
 
@@ -103,39 +109,28 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${display.variable} ${mono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
-        <meta name="theme-color" content="#059669" />
-        <meta name="msapplication-TileColor" content="#059669" />
-        <link rel="mask-icon" href="/favicon.svg" color="#059669" />
-        <link
-          rel="preload"
-          href="/fonts/incognito_regular.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin=""
-        />
-        <link
-          rel="preload"
-          href="/fonts/incognito_bold.woff2"
-          as="font"
-          type="font/woff2"
-          crossOrigin=""
-        />
+        <meta name="theme-color" content="#16a34a" />
+        <meta name="msapplication-TileColor" content="#16a34a" />
+        <link rel="mask-icon" href="/favicon.svg" color="#16a34a" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
       </head>
-      <body>
-        <ClickSpark sparkColor="#22c55e" sparkSize={19} sparkRadius={50}>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <div className="flex-1">{children}</div>
-            <Footer />
-          </div>
-        </ClickSpark>
+      <body className="bg-background text-foreground antialiased selection:bg-signal/20 selection:text-signal">
+        <SiteEffects />
+        <div className="relative z-10 flex min-h-screen flex-col">
+          <Header />
+          <div className="flex-1">{children}</div>
+          <Footer />
+        </div>
       </body>
     </html>
   );
