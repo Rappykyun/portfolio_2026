@@ -288,7 +288,6 @@ export const LogoLoop = React.memo<LogoLoopProps>(
             <li
               className={cx(
                 "flex-none text-[length:var(--logoloop-logoHeight)] leading-[1]",
-                isVertical ? "mb-[var(--logoloop-gap)]" : "mr-[var(--logoloop-gap)]",
                 scaleOnHover && "overflow-visible group/item",
               )}
               key={key}
@@ -344,7 +343,6 @@ export const LogoLoop = React.memo<LogoLoopProps>(
           <li
             className={cx(
               "flex-none text-[length:var(--logoloop-logoHeight)] leading-[1]",
-              isVertical ? "mb-[var(--logoloop-gap)]" : "mr-[var(--logoloop-gap)]",
               scaleOnHover && "overflow-visible group/item",
             )}
             key={key}
@@ -354,14 +352,19 @@ export const LogoLoop = React.memo<LogoLoopProps>(
           </li>
         );
       },
-      [isVertical, scaleOnHover, renderItem],
+      [scaleOnHover, renderItem],
     );
 
     const logoLists = useMemo(
       () =>
         Array.from({ length: copyCount }, (_, copyIndex) => (
           <ul
-            className={cx("flex items-center", isVertical && "flex-col")}
+            className={cx(
+              "flex items-center gap-[var(--logoloop-gap)]",
+              isVertical
+                ? "flex-col pb-[var(--logoloop-gap)] h-max w-full"
+                : "flex-row pr-[var(--logoloop-gap)] w-max",
+            )}
             key={`copy-${copyIndex}`}
             role="list"
             aria-hidden={copyIndex > 0}
@@ -408,7 +411,10 @@ export const LogoLoop = React.memo<LogoLoopProps>(
         )}
 
         <div
-          className="flex will-change-transform select-none relative z-0 motion-reduce:transform-none"
+          className={cx(
+            "flex will-change-transform select-none relative z-0 motion-reduce:transform-none",
+            isVertical ? "flex-col h-max w-full" : "flex-row w-max",
+          )}
           ref={trackRef}
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
