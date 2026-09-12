@@ -1,5 +1,11 @@
-.next
 node_modules
+.next
 .git
+.worktrees
 .env
+.env.*
+coverage
+*.log
+npm-debug.log*
 .tools
+tsconfig.tsbuildinfo
